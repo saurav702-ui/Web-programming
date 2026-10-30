@@ -1,183 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>JavaScript Basics</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      max-width: 700px;
-      margin: auto;
-      padding: 30px;
-    }
+    <title>JavaScript Basics</title>
 
-    section {
-      background-color: white;
-      padding: 15px;
-      margin-bottom: 15px;
-      border: 1px solid #ddd;
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            max-width: 700px;
+            margin: auto;
+            padding: 30px;
+            color: #222222;
+        }
 
-    h1 {
-      color: #0f766e;
-    }
+        main {
+            width: 100%;
+        }
 
-    h2 {
-      color: #334155;
-    }
+        section {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #999;
+            border-radius: 4px;
+        }
 
-    input {
-      padding: 6px;
-    }
+        h1 {
+            color: #0f766e;
+        }
 
-    button {
-      padding: 6px 10px;
-    }
-  </style>
+        h2 {
+            color: #334155;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        input {
+            padding: 8px;
+            border: 1px solid #555;
+            border-radius: 3px;
+            margin-bottom: 8px;
+        }
+
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+            background-color: #eeeeee;
+            color: #111111;
+            border: 1px solid #555;
+            border-radius: 3px;
+        }
+
+        button:hover {
+            background-color: #dddddd;
+        }
+
+        button:focus-visible,
+        input:focus-visible {
+            outline: 3px solid #0f766e;
+            outline-offset: 3px;
+        }
+
+        a {
+            color: #075985;
+        }
+
+        .result {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
 
-  <h1>JavaScript Basics</h1>
-  <p>Basic examples of JavaScript, conditions, and loops.</p>
+    <main>
 
-  <section>
-    <h2>Changing Content</h2>
-    <p id="message">Original text</p>
-    <button onclick="changeText()">Change Text</button>
-  </section>
+        <h1>JavaScript Basics</h1>
 
-  <section>
-    <h2>Reading User Input</h2>
-    <input type="text" id="nameInput" placeholder="Your name">
-    <button onclick="greet()">Greet</button>
-    <p id="output"></p>
-  </section>
+        <p>Basic examples of JavaScript, conditions, and loops.</p>
 
-  <section>
-    <h2>Condition (if / else)</h2>
-    <p>Enter a score:</p>
-    <input type="number" id="scoreInput">
-    <button onclick="checkScore()">Check</button>
-    <p id="grade"></p>
-  </section>
+        <!-- Changing Content -->
+        <section>
 
-  <section>
-    <h2>Loop (for)</h2>
-    <p>Enter a number:</p>
-    <input type="number" id="loopInput">
-    <button onclick="runLoop()">Run</button>
-    <p id="loop"></p>
-  </section>
+            <h2>Changing Content</h2>
 
-  <section>
-    <h2>Loop Through an Array</h2>
-    <p id="fruits"></p>
-  </section>
+            <p id="message" aria-live="polite">
+                Original text
+            </p>
 
-  <section>
-    <h2>localStorage</h2>
-    <p id="saved"></p>
-  </section>
+            <button type="button" onclick="changeText()">
+                Change Text
+            </button>
 
-  <script>
-    let name = 'DELGERBAT';
-    const MAX = 100;
+        </section>
 
-    console.log(name);
 
-    function changeText() {
-      let el = document.getElementById('message');
-      el.textContent = 'Text was changed!';
-      el.style.color = 'red';
-    }
+        <!-- Reading User Input -->
+        <section>
 
-    function greet() {
-      let name = document.getElementById('nameInput').value;
-      document.getElementById('output').textContent = 'Hello, ' + name + '!';
-      localStorage.setItem('name', name);
-    }
+            <h2>Reading User Input</h2>
 
-    function checkScore() {
-      let score = document.getElementById('scoreInput').value;
+            <label for="nameInput">Enter your name:</label>
 
-      localStorage.setItem('score', score);
+            <input
+                type="text"
+                id="nameInput"
+                placeholder="Your name"
+                autocomplete="given-name"
+            >
 
-      if (score >= 90) {
-        document.getElementById('grade').textContent = 'Grade: A';
-      } else if (score >= 80) {
-        document.getElementById('grade').textContent = 'Grade: B';
-      } else if (score >= 70) {
-        document.getElementById('grade').textContent = 'Grade: C';
-      } else {
-        document.getElementById('grade').textContent = 'Grade: F';
-      }
-    }
+            <button type="button" onclick="greet()">
+                Greet
+            </button>
 
-    function runLoop() {
-      let number = document.getElementById('loopInput').value;
+            <p id="output" class="result" aria-live="polite"></p>
 
-      localStorage.setItem('loopNumber', number);
+        </section>
 
-      let result = '';
 
-      for (let i = 1; i <= number; i++) {
-        result += 'Step ' + i + '<br>';
-      }
+        <!-- Condition -->
+        <section>
 
-      document.getElementById('loop').innerHTML = result;
-    }
+            <h2>Condition (if / else)</h2>
 
-    let fruits = ['apple', 'banana', 'cherry'];
-    let fruitResult = '';
+            <label for="scoreInput">Enter a score (0–100):</label>
 
-    for (let fruit of fruits) {
-      fruitResult += fruit + '<br>';
-    }
+            <input
+                type="number"
+                id="scoreInput"
+                min="0"
+                max="100"
+                aria-describedby="scoreHelp"
+            >
 
-    document.getElementById('fruits').innerHTML = fruitResult;
+            <p id="scoreHelp">Enter a number between 0 and 100.</p>
 
-    let savedName = localStorage.getItem('name');
-    let savedScore = localStorage.getItem('score');
-    let savedLoopNumber = localStorage.getItem('loopNumber');
+            <button type="button" onclick="checkScore()">
+                Check
+            </button>
 
-    if (savedName !== null) {
-      document.getElementById('nameInput').value = savedName;
-      document.getElementById('output').textContent = 'Hello, ' + savedName + '!';
-    }
+            <p id="grade" class="result" aria-live="polite"></p>
 
-    if (savedScore !== null) {
-      document.getElementById('scoreInput').value = savedScore;
+        </section>
 
-      if (savedScore >= 90) {
-        document.getElementById('grade').textContent = 'Grade: A';
-      } else if (savedScore >= 80) {
-        document.getElementById('grade').textContent = 'Grade: B';
-      } else if (savedScore >= 70) {
-        document.getElementById('grade').textContent = 'Grade: C';
-      } else {
-        document.getElementById('grade').textContent = 'Grade: F';
-      }
-    }
 
-    if (savedLoopNumber !== null) {
-      document.getElementById('loopInput').value = savedLoopNumber;
+        <!-- For Loop -->
+        <section>
 
-      let savedResult = '';
+            <h2>Loop (for)</h2>
 
-      for (let i = 1; i <= savedLoopNumber; i++) {
-        savedResult += 'Step ' + i + '<br>';
-      }
+            <label for="loopInput">Enter a number:</label>
 
-      document.getElementById('loop').innerHTML = savedResult;
-    }
+            <input
+                type="number"
+                id="loopInput"
+                min="1"
+                max="100"
+            >
 
-    localStorage.setItem('username', 'SAURAV');
-    document.getElementById('saved').textContent =
-      'Saved name: ' + localStorage.getItem('username');
-  </script>
+            <button type="button" onclick="runLoop()">
+                Run
+            </button>
+
+            <ol id="loop" class="result" aria-live="polite"></ol>
+
+        </section>
+
+
+        <!-- Array -->
+        <section>
+
+            <h2>Loop Through an Array</h2>
+
+            <ul id="fruits"></ul>
+
+        </section>
+
+
+        <!-- Local Storage -->
+        <section>
+
+            <h2>localStorage</h2>
+
+            <p id="saved" aria-live="polite"></p>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        let name = 'DELGERBAT';
+        const MAX = 100;
+
+        console.log(name);
+
+
+        // Changing Content
+
+        function changeText() {
+
+            let el = document.getElementById('message');
+
+            el.textContent = 'Text was changed!';
+            el.style.color = 'red';
+
+        }
+
+
+        // Reading User Input
+
+        function greet() {
+
+            let name = document.getElementById('nameInput').value.trim();
+
+            if (name === '') {
+                document.getElementById('output').textContent =
+                    'Please enter your name.';
+                return;
+            }
+
+            document.getElementById('output').textContent =
+                'Hello, ' + name + '!';
+
+            localStorage.setItem('name', name);
+
+        }
+
+
+        // Condition (if / else)
+
+        function checkScore() {
+
+            let scoreInput = document.getElementById('scoreInput');
+
+            let score = scoreInput.value;
+
+            if (score === '' || Number(score) < 0 || Number(score) > MAX) {
+
+                document.getElementById('grade').textContent =
+                    'Please enter a valid score between 0 and 100.';
+
+                return;
+            }
+
+            score = Number(score);
+
+            localStorage.setItem('score', score);
+
+            if (score >= 90) {
+
+                document.getElementById('grade').textContent = 'Grade: A';
+
+            } else if (score >= 80) {
+
+                document.getElementById('grade').textContent = 'Grade: B';
+
+            } else if (score >= 70) {
+
+                document.getElementById('grade').textContent = 'Grade: C';
+
+            } else {
+
+                document.getElementById('grade').textContent = 'Grade: F';
+
+            }
+
+        }
+
+
+        // For Loop
+
+        function runLoop() {
+
+            let number = Number(document.getElementById('loopInput').value);
+
+            if (!Number.isInteger(number) || number < 1 || number > 100) {
+
+                document.getElementById('loop').textContent =
+                    'Please enter a number between 1 and 100.';
+
+                return;
+            }
+
+            localStorage.setItem('loopNumber', number);
+
+            let result = '';
+
+            for (let i = 1; i <= number; i++) {
+
+                let li = document.createElement('li');
+
+                li.textContent = 'Step ' + i;
+
+                result += li.outerHTML;
+
+            }
+
+            document.getElementById('loop').innerHTML = result;
+
+        }
+
+
+        // Loop Through an Array
+
+        let fruits = ['apple', 'banana', 'cherry'];
+
+        let fruitList = document.getElementById('fruits');
+
+        for (let fruit of fruits) {
+
+            let li = document.createElement('li');
+
+            li.textContent = fruit;
+
+            fruitList.appendChild(li);
+
+        }
+
+
+        // Load Saved Data
+
+        let savedName = localStorage.getItem('name');
+
+        let savedScore = localStorage.getItem('score');
+
+        let savedLoopNumber = localStorage.getItem('loopNumber');
+
+
+        if (savedName !== null) {
+
+            document.getElementById('nameInput').value = savedName;
+
+            document.getElementById('output').textContent =
+                'Hello, ' + savedName + '!';
+
+        }
+
+
+        if (savedScore !== null) {
+
+            document.getElementById('scoreInput').value = savedScore;
+
+            if (savedScore >= 90) {
+
+                document.getElementById('grade').textContent = 'Grade: A';
+
+            } else if (savedScore >= 80) {
+
+                document.getElementById('grade').textContent = 'Grade: B';
+
+            } else if (savedScore >= 70) {
+
+                document.getElementById('grade').textContent = 'Grade: C';
+
+            } else {
+
+                document.getElementById('grade').textContent = 'Grade: F';
+
+            }
+
+        }
+
+
+        if (savedLoopNumber !== null) {
+
+            document.getElementById('loopInput').value = savedLoopNumber;
+
+            let savedResult = '';
+
+            for (let i = 1; i <= Number(savedLoopNumber); i++) {
+
+                savedResult += '<li>Step ' + i + '</li>';
+
+            }
+
+            document.getElementById('loop').innerHTML = savedResult;
+
+        }
+
+
+        // Local Storage
+
+        localStorage.setItem('username', 'SAURAV');
+
+        document.getElementById('saved').textContent =
+            'Saved name: ' + localStorage.getItem('username');
+
+    </script>
 
 </body>
 </html>
