@@ -1,378 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessibility Report — JavaScript Basics</title>
 
-    <title>Accessibility Report - JavaScript Basics</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-    <style>
-        :root {
-            --ink: #1b2a24;
-            --muted: #46564f;
-            --line: #cfd8d2;
-            --accent: #0f766e;
-            --bad: #8f2614;
-            --good: #1b6b3a;
-            --bg: #f5f7f6;
-        }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      color: #202124;
+      background: #f4f6f8;
+    }
 
-        * {
-            box-sizing: border-box;
-        }
+    header {
+      padding: 40px 20px;
+      color: white;
+      background: #173b65;
+      text-align: center;
+    }
 
-        body {
-            margin: 0;
-            background: var(--bg);
-            color: var(--ink);
-            font: 1.0625rem/1.65 Arial, Helvetica, sans-serif;
-        }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+    }
 
-        .wrap {
-            max-width: 52rem;
-            margin: 0 auto;
-            padding: 2rem 1rem 4rem;
-        }
+    header p {
+      margin: 0;
+    }
 
-        h1 {
-            color: var(--accent);
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            line-height: 1.2;
-        }
+    main {
+      width: min(100% - 32px, 1000px);
+      margin: 30px auto;
+    }
 
-        h2 {
-            font-size: 1.5rem;
-        }
+    section {
+      margin-bottom: 24px;
+      padding: 24px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
 
-        h3 {
-            font-size: 1.1rem;
-        }
+    h2 {
+      margin-top: 0;
+      color: #173b65;
+    }
 
-        a {
-            color: #075985;
-        }
+    .scores {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
 
-        :focus-visible {
-            outline: 3px solid #0b57d0;
-            outline-offset: 3px;
-        }
+    .score-card {
+      padding: 20px;
+      border: 1px solid #d8dee6;
+      border-radius: 8px;
+      text-align: center;
+    }
 
-        .skip-link {
-            position: absolute;
-            left: -9999px;
-        }
+    .score {
+      margin: 8px 0;
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
 
-        .skip-link:focus {
-            left: .5rem;
-            top: .5rem;
-            z-index: 9999;
-            background: #1a2744;
-            color: white;
-            padding: .5rem 1rem;
-        }
+    .before {
+      color: #b45309;
+    }
 
-        .meta {
-            color: var(--muted);
-            margin-bottom: 1.5rem;
-        }
+    .after {
+      color: #16803c;
+    }
 
-        section {
-            background: white;
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            padding: 1.25rem 1.5rem;
-            margin: 1.25rem 0;
-        }
+    .status {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+    .failed {
+      color: #842029;
+      background: #f8d7da;
+    }
 
-        th,
-        td {
-            border: 1px solid var(--line);
-            padding: .6rem .8rem;
-            text-align: left;
-        }
+    .passed {
+      color: #0f5132;
+      background: #d1e7dd;
+    }
 
-        th {
-            background: #e8f0ed;
-        }
+    ul {
+      padding-left: 22px;
+    }
 
-        .tag {
-            display: inline-block;
-            font-weight: bold;
-            padding: .1rem .6rem;
-            border-radius: 999px;
-            font-size: .9rem;
-            color: white;
-        }
+    li {
+      margin-bottom: 8px;
+    }
 
-        .before {
-            background: var(--bad);
-        }
+    .screenshots {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
 
-        .after {
-            background: var(--good);
-        }
+    figure {
+      margin: 0;
+    }
 
-        pre {
-            padding: 1rem;
-            background: #17302a;
-            color: #e8f0eb;
-            border-radius: 8px;
-            overflow-x: auto;
-            font: .9rem/1.5 Consolas, Menlo, monospace;
-        }
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid #ccd3dc;
+      border-radius: 6px;
+    }
 
-        figure {
-            margin: 1.5rem 0;
-        }
+    figcaption {
+      margin-top: 8px;
+      color: #4b5563;
+      text-align: center;
+    }
 
-        figure img {
-            display: block;
-            width: 100%;
-            height: auto;
-            border: 1px solid var(--line);
-            border-radius: 8px;
-        }
+    a {
+      color: #0645ad;
+    }
 
-        figcaption {
-            color: var(--muted);
-            font-size: .95rem;
-            margin-top: .4rem;
-        }
+    a:focus-visible {
+      outline: 3px solid #f59e0b;
+      outline-offset: 3px;
+    }
 
-        ul {
-            padding-left: 1.5rem;
-        }
+    footer {
+      padding: 20px;
+      color: #5b6470;
+      text-align: center;
+    }
 
-        .num {
-            display: inline-grid;
-            place-items: center;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            background: var(--accent);
-            color: white;
-            margin-right: .5rem;
-        }
-    </style>
+    @media (max-width: 600px) {
+      header {
+        padding: 28px 16px;
+      }
+
+      section {
+        padding: 18px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <header>
+    <h1>Website Accessibility Report</h1>
+    <p>JavaScript Basics Website</p>
+  </header>
 
-    <a href="#main-content" class="skip-link">
-        Skip to main content
-    </a>
+  <main>
+    <section aria-labelledby="overview-heading">
+      <h2 id="overview-heading">Overview</h2>
+      <p>
+        This report compares the accessibility of the JavaScript Basics
+        webpage before and after improvements. The webpage was evaluated
+        using Google Lighthouse.
+      </p>
+      <p>
+        <strong>Tested webpage:</strong>
+        <a href="intialpage.html">JavaScript Basics Website</a>
+      </p>
+    </section>
 
-    <main id="main-content" class="wrap">
+    <section aria-labelledby="results-heading">
+      <h2 id="results-heading">Lighthouse Results</h2>
 
-        <h1>Accessibility Fixes: Week 9</h1>
+      <div class="scores">
+        <div class="score-card">
+          <h3>Before Improvements</h3>
+          <div class="score before">82/100</div>
+          <span class="status failed">Needs improvement</span>
+        </div>
 
-        <p class="meta">
-            JavaScript Basics - Web Programming<br>
-            Gachon University<br>
-            Page tested:
-            <a href="task2.html">JavaScript Basics Website</a>
-        </p>
+        <div class="score-card">
+          <h3>After Improvements</h3>
+          <div class="score after">100/100</div>
+          <span class="status passed">All checks passed</span>
+        </div>
+      </div>
+    </section>
 
-        <section aria-labelledby="scores">
+    <section aria-labelledby="issues-heading">
+      <h2 id="issues-heading">Issues Found Before Improvements</h2>
+      <ul>
+        <li>
+          <strong>Form elements did not have associated labels.</strong>
+          This could make it difficult for screen-reader users to understand
+          the purpose of the input fields.
+        </li>
+        <li>
+          <strong>The page did not have a main landmark.</strong>
+          A main landmark helps assistive technology users navigate directly
+          to the primary content.
+        </li>
+      </ul>
+    </section>
 
-            <h2 id="scores">Lighthouse Results</h2>
+    <section aria-labelledby="changes-heading">
+      <h2 id="changes-heading">Accessibility Improvements</h2>
+      <ul>
+        <li>Added a semantic <code>&lt;main&gt;</code> landmark.</li>
+        <li>Connected form inputs to descriptive labels.</li>
+        <li>Added clearer structure and heading organization.</li>
+        <li>Improved keyboard focus visibility.</li>
+        <li>Added responsive styling for smaller screens.</li>
+      </ul>
+    </section>
 
-            <table>
-                <caption class="sr-only">
-                    Accessibility scores before and after the fixes
-                </caption>
+    <section aria-labelledby="screenshots-heading">
+      <h2 id="screenshots-heading">Before and After Screenshots</h2>
 
-                <thead>
-                    <tr>
-                        <th scope="col">Stage</th>
-                        <th scope="col">Accessibility Score</th>
-                        <th scope="col">Failed Audits</th>
-                    </tr>
-                </thead>
+      <div class="screenshots">
+        <figure>
+          <img src="intial.png" alt="Lighthouse accessibility results before improvements, showing a score of 82 out of 100">
+          <figcaption>Before improvements — 82/100</figcaption>
+        </figure>
 
-                <tbody>
-                    <tr>
-                        <th scope="row">
-                            <span class="tag before">Before</span>
-                        </th>
-                        <td>82</td>
-                        <td>2</td>
-                    </tr>
+        <figure>
+          <img src="final.png" alt="Lighthouse accessibility results after improvements, showing a score of 100 out of 100">
+          <figcaption>After improvements — 100/100</figcaption>
+        </figure>
+      </div>
+    </section>
 
-                    <tr>
-                        <th scope="row">
-                            <span class="tag after">After</span>
-                        </th>
-                        <td>100</td>
-                        <td>0</td>
-                    </tr>
-                </tbody>
-            </table>
+    <section aria-labelledby="conclusion-heading">
+      <h2 id="conclusion-heading">Conclusion</h2>
+      <p>
+        The accessibility score increased from 82 to 100 after the identified
+        issues were addressed. The improvements make the webpage easier to
+        navigate and understand, especially for users who rely on assistive
+        technologies.
+      </p>
+    </section>
+  </main>
 
-            <p>
-                Tool: Chrome DevTools Lighthouse,
-                Accessibility category.
-            </p>
-
-            <figure>
-                <img
-                    src="initial.png"
-                    alt="Initial Lighthouse accessibility report showing a score of 82."
-                >
-                <figcaption>
-                    Before: Accessibility score of 82.
-                </figcaption>
-            </figure>
-
-            <figure>
-                <img
-                    src="final.png"
-                    alt="Final Lighthouse accessibility report showing the accessibility score after the fixes."
-                >
-                <figcaption>
-                    After: Final accessibility score.
-                </figcaption>
-            </figure>
-
-        </section>
-
-        <section aria-labelledby="fix1">
-
-            <h2 id="fix1">
-                <span class="num" aria-hidden="true">1</span>
-                Added labels to form inputs
-            </h2>
-
-            <p>
-                <strong>Audit:</strong>
-                Form elements do not have associated labels.
-            </p>
-
-            <p>
-                <strong>Why it matters:</strong>
-                Screen readers need labels to explain the purpose
-                of form inputs.
-            </p>
-
-            <h3>Before</h3>
-
-<pre><code>&lt;p&gt;Enter a score:&lt;/p&gt;
-&lt;input type="number" id="scoreInput"&gt;</code></pre>
-
-            <h3>After</h3>
-
-<pre><code>&lt;label for="scoreInput"&gt;
-    Enter a score:
-&lt;/label&gt;
-
-&lt;input type="number" id="scoreInput"&gt;</code></pre>
-
-            <p>
-                The same improvement was applied to the name input
-                and the number input.
-            </p>
-
-        </section>
-
-        <section aria-labelledby="fix2">
-
-            <h2 id="fix2">
-                <span class="num" aria-hidden="true">2</span>
-                Added a main landmark
-            </h2>
-
-            <p>
-                <strong>Audit:</strong>
-                Document does not have a main landmark.
-            </p>
-
-            <p>
-                <strong>Why it matters:</strong>
-                A main landmark helps screen reader users
-                navigate directly to the main content.
-            </p>
-
-            <h3>Before</h3>
-
-<pre><code>&lt;body&gt;
-    &lt;h1&gt;JavaScript Basics&lt;/h1&gt;
-    &lt;section&gt;...&lt;/section&gt;
-&lt;/body&gt;</code></pre>
-
-            <h3>After</h3>
-
-<pre><code>&lt;body&gt;
-    &lt;main&gt;
-        &lt;h1&gt;JavaScript Basics&lt;/h1&gt;
-        &lt;section&gt;...&lt;/section&gt;
-    &lt;/main&gt;
-&lt;/body&gt;</code></pre>
-
-        </section>
-
-        <section aria-labelledby="fix3">
-
-            <h2 id="fix3">
-                <span class="num" aria-hidden="true">3</span>
-                Added a skip link
-            </h2>
-
-            <p>
-                Keyboard users can skip directly to the main content
-                instead of navigating through every element.
-            </p>
-
-            <h3>HTML</h3>
-
-<pre><code>&lt;a href="#main-content" class="skip-link"&gt;
-    Skip to main content
-&lt;/a&gt;</code></pre>
-
-            <h3>CSS</h3>
-
-<pre><code>.skip-link {
-    position: absolute;
-    left: -9999px;
-}
-
-.skip-link:focus {
-    left: .5rem;
-    top: .5rem;
-}</code></pre>
-
-            <p>
-                The link becomes visible when a keyboard user
-                presses Tab and focuses on it.
-            </p>
-
-        </section>
-
-        <section aria-labelledby="extra">
-
-            <h2 id="extra">Other Improvements</h2>
-
-            <ul>
-                <li>Added a viewport meta tag for mobile devices.</li>
-                <li>Added visible keyboard focus outlines.</li>
-                <li>Added aria-live attributes to result messages.</li>
-                <li>Improved form validation.</li>
-                <li>Used semantic HTML elements such as main and section.</li>
-            </ul>
-
-            <p>
-                <strong>Final Project:</strong>
-                <a href="task2.html">JavaScript Basics Website</a>
-            </p>
-
-        </section>
-
-    </main>
-
+  <footer>
+    <p>Accessibility Report — JavaScript Basics</p>
+  </footer>
 </body>
 </html>
