@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accessibility Report — JavaScript Basics</title>
+  <title>Website Accessibility Audit Report</title>
 
   <style>
     * {
@@ -13,36 +13,32 @@
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
-      color: #202124;
+      line-height: 1.7;
+      color: #242424;
       background: #f4f6f8;
     }
 
     header {
-      padding: 40px 20px;
-      color: white;
+      padding: 36px 20px;
+      color: #fff;
       background: #173b65;
       text-align: center;
     }
 
     header h1 {
-      margin: 0 0 8px;
+      margin: 0;
       font-size: 2rem;
     }
 
-    header p {
-      margin: 0;
-    }
-
     main {
-      width: min(100% - 32px, 1000px);
+      width: min(100% - 32px, 900px);
       margin: 30px auto;
     }
 
     section {
       margin-bottom: 24px;
       padding: 24px;
-      background: white;
+      background: #fff;
       border-radius: 10px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
@@ -52,105 +48,69 @@
       color: #173b65;
     }
 
-    .scores {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-    }
-
-    .score-card {
-      padding: 20px;
-      border: 1px solid #d8dee6;
-      border-radius: 8px;
-      text-align: center;
+    h3 {
+      margin-bottom: 8px;
     }
 
     .score {
-      margin: 8px 0;
-      font-size: 2.5rem;
+      font-size: 1.5rem;
       font-weight: bold;
     }
 
     .before {
-      color: #b45309;
+      color: #a65b00;
     }
 
     .after {
-      color: #16803c;
+      color: #18733b;
     }
 
-    .status {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      font-weight: bold;
-    }
-
-    .failed {
-      color: #842029;
-      background: #f8d7da;
-    }
-
-    .passed {
-      color: #0f5132;
-      background: #d1e7dd;
-    }
-
-    ul {
-      padding-left: 22px;
-    }
-
-    li {
-      margin-bottom: 8px;
-    }
-
-    .screenshots {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    figure {
-      margin: 0;
-    }
-
-    figure img {
+    .screenshot {
       display: block;
       width: 100%;
       height: auto;
-      border: 1px solid #ccd3dc;
+      margin-top: 14px;
+      border: 1px solid #d4d9df;
       border-radius: 6px;
+    }
+
+    figure {
+      margin: 20px 0 0;
     }
 
     figcaption {
       margin-top: 8px;
-      color: #4b5563;
-      text-align: center;
+      color: #555;
+      font-size: 0.95rem;
     }
 
-    a {
-      color: #0645ad;
+    pre {
+      overflow-x: auto;
+      padding: 16px;
+      color: #f4f4f4;
+      background: #20252b;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
 
-    a:focus-visible {
-      outline: 3px solid #f59e0b;
-      outline-offset: 3px;
+    code {
+      font-family: Consolas, Monaco, monospace;
     }
 
     footer {
       padding: 20px;
-      color: #5b6470;
+      color: #555;
       text-align: center;
     }
 
     @media (max-width: 600px) {
-      header {
-        padding: 28px 16px;
-      }
-
       section {
         padding: 18px;
+      }
+
+      header h1 {
+        font-size: 1.6rem;
       }
     }
   </style>
@@ -158,98 +118,121 @@
 
 <body>
   <header>
-    <h1>Website Accessibility Report</h1>
-    <p>JavaScript Basics Website</p>
+    <h1>Website Accessibility Audit Report</h1>
+    <p>Google Lighthouse Accessibility Evaluation</p>
   </header>
 
   <main>
-    <section aria-labelledby="overview-heading">
-      <h2 id="overview-heading">Overview</h2>
+    <section>
+      <h2>1. Introduction</h2>
       <p>
-        This report compares the accessibility of the JavaScript Basics
-        webpage before and after improvements. The webpage was evaluated
-        using Google Lighthouse.
-      </p>
-      <p>
-        <strong>Tested webpage:</strong>
-        <a href="intialpage.html">JavaScript Basics Website</a>
+        I used Google Lighthouse to evaluate the accessibility of my personal
+        portfolio website. I ran the audit with only the Accessibility category
+        selected, once before and once after making improvements.
       </p>
     </section>
 
-    <section aria-labelledby="results-heading">
-      <h2 id="results-heading">Lighthouse Results</h2>
-
-      <div class="scores">
-        <div class="score-card">
-          <h3>Before Improvements</h3>
-          <div class="score before">82/100</div>
-          <span class="status failed">Needs improvement</span>
-        </div>
-
-        <div class="score-card">
-          <h3>After Improvements</h3>
-          <div class="score after">100/100</div>
-          <span class="status passed">All checks passed</span>
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="issues-heading">
-      <h2 id="issues-heading">Issues Found Before Improvements</h2>
-      <ul>
-        <li>
-          <strong>Form elements did not have associated labels.</strong>
-          This could make it difficult for screen-reader users to understand
-          the purpose of the input fields.
-        </li>
-        <li>
-          <strong>The page did not have a main landmark.</strong>
-          A main landmark helps assistive technology users navigate directly
-          to the primary content.
-        </li>
-      </ul>
-    </section>
-
-    <section aria-labelledby="changes-heading">
-      <h2 id="changes-heading">Accessibility Improvements</h2>
-      <ul>
-        <li>Added a semantic <code>&lt;main&gt;</code> landmark.</li>
-        <li>Connected form inputs to descriptive labels.</li>
-        <li>Added clearer structure and heading organization.</li>
-        <li>Improved keyboard focus visibility.</li>
-        <li>Added responsive styling for smaller screens.</li>
-      </ul>
-    </section>
-
-    <section aria-labelledby="screenshots-heading">
-      <h2 id="screenshots-heading">Before and After Screenshots</h2>
-
-      <div class="screenshots">
-        <figure>
-          <img src="intial.png" alt="Lighthouse accessibility results before improvements, showing a score of 82 out of 100">
-          <figcaption>Before improvements — 82/100</figcaption>
-        </figure>
-
-        <figure>
-          <img src="final.png" alt="Lighthouse accessibility results after improvements, showing a score of 100 out of 100">
-          <figcaption>After improvements — 100/100</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section aria-labelledby="conclusion-heading">
-      <h2 id="conclusion-heading">Conclusion</h2>
+    <section>
+      <h2>2. Before the Improvements</h2>
+      <p class="score before">Initial Lighthouse accessibility score: 97/100</p>
       <p>
-        The accessibility score increased from 82 to 100 after the identified
-        issues were addressed. The improvements make the webpage easier to
-        navigate and understand, especially for users who rely on assistive
-        technologies.
+        The report listed one failing item:
+        <strong>“Document does not have a main landmark.”</strong>
+      </p>
+
+      <figure>
+        <img
+          class="screenshot"
+          src="intial.png"
+          alt="Lighthouse accessibility report before improvements, showing a score of 97 and the failing item Document does not have a main landmark."
+        >
+        <figcaption>
+          Lighthouse accessibility report before the improvements.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>3. After the Improvements</h2>
+      <p class="score after">Final Lighthouse accessibility score: 100/100</p>
+
+      <figure>
+        <img
+          class="screenshot"
+          src="final.png"
+          alt="Lighthouse accessibility report after improvements, showing an accessibility score of 100."
+        >
+        <figcaption>
+          Lighthouse accessibility report after the improvements.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>4. Accessibility Fixes</h2>
+
+      <h3>Fix 1: Main Landmark</h3>
+      <p>
+        I wrapped the page content in a <code>&lt;main&gt;</code> element.
+        This gives screen reader users a landmark to jump to and fixes the
+        failing audit. The navigation and footer wordmark stay outside it.
+      </p>
+
+      <p><strong>HTML example:</strong></p>
+      <pre><code>&lt;main id="main" tabindex="-1"&gt;
+  &lt;!-- hero, assignments, about, contact --&gt;
+&lt;/main&gt;</code></pre>
+
+      <h3>Fix 2: Skip Link</h3>
+      <p>
+        I added a “Skip to main content” link as the first element in the body.
+        It stays hidden until a keyboard user presses Tab, then appears so they
+        can skip the navigation and go straight to the content.
+      </p>
+
+      <p><strong>HTML example:</strong></p>
+      <pre><code>&lt;a class="skip-link" href="#main"&gt;Skip to main content&lt;/a&gt;</code></pre>
+
+      <p><strong>CSS example:</strong></p>
+      <pre><code>.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -60px;
+  padding: 8px 16px;
+  background: #000;
+  color: #fff;
+}
+
+.skip-link:focus {
+  top: 8px;
+}</code></pre>
+
+      <h3>Fix 3: Keyboard Focus Indicator</h3>
+      <p>
+        I added a visible outline when a link receives keyboard focus. This
+        helps keyboard users see which link is currently selected.
+      </p>
+
+      <p><strong>CSS example:</strong></p>
+      <pre><code>a:focus-visible {
+  outline: 3px solid #6b0f1a;
+  outline-offset: 3px;
+}</code></pre>
+    </section>
+
+    <section>
+      <h2>5. Conclusion</h2>
+      <p>
+        These improvements make my website easier to use for keyboard users
+        and for people who use screen readers. The accessibility audit now
+        reports a score of 100 out of 100, and the missing main landmark has
+        been fixed.
       </p>
     </section>
   </main>
 
   <footer>
-    <p>Accessibility Report — JavaScript Basics</p>
+    <p>Website Accessibility Audit Report</p>
   </footer>
 </body>
 </html>
