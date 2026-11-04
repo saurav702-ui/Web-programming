@@ -39,21 +39,14 @@
             color: var(--accent);
             font-size: clamp(1.8rem, 5vw, 2.5rem);
             line-height: 1.2;
-            margin: 0 0 .5rem;
         }
 
         h2 {
             font-size: 1.5rem;
-            margin: 0 0 .75rem;
         }
 
         h3 {
             font-size: 1.1rem;
-            margin: 1.25rem 0 .4rem;
-        }
-
-        p {
-            margin: 0 0 1rem;
         }
 
         a {
@@ -75,7 +68,7 @@
             top: .5rem;
             z-index: 9999;
             background: #1a2744;
-            color: #fff;
+            color: white;
             padding: .5rem 1rem;
         }
 
@@ -85,7 +78,7 @@
         }
 
         section {
-            background: #fff;
+            background: white;
             border: 1px solid var(--line);
             border-radius: 10px;
             padding: 1.25rem 1.5rem;
@@ -110,11 +103,11 @@
 
         .tag {
             display: inline-block;
-            font-weight: 700;
+            font-weight: bold;
             padding: .1rem .6rem;
             border-radius: 999px;
             font-size: .9rem;
-            color: #fff;
+            color: white;
         }
 
         .before {
@@ -126,7 +119,6 @@
         }
 
         pre {
-            margin: .4rem 0 1rem;
             padding: 1rem;
             background: #17302a;
             color: #e8f0eb;
@@ -135,25 +127,8 @@
             font: .9rem/1.5 Consolas, Menlo, monospace;
         }
 
-        .num {
-            display: inline-grid;
-            place-items: center;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            background: var(--accent);
-            color: #fff;
-            font-weight: 700;
-            margin-right: .5rem;
-        }
-
-        ul {
-            margin: 0 0 1rem;
-            padding-left: 1.3rem;
-        }
-
         figure {
-            margin: 1.25rem 0 0;
+            margin: 1.5rem 0;
         }
 
         figure img {
@@ -170,16 +145,19 @@
             margin-top: .4rem;
         }
 
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
+        ul {
+            padding-left: 1.5rem;
+        }
+
+        .num {
+            display: inline-grid;
+            place-items: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            margin-right: .5rem;
         }
     </style>
 </head>
@@ -192,25 +170,20 @@
 
     <main id="main-content" class="wrap">
 
-        <h1>Accessibility Fixes: Week 5, Task 2</h1>
+        <h1>Accessibility Fixes: Week 9</h1>
 
         <p class="meta">
             JavaScript Basics - Web Programming<br>
             Gachon University<br>
             Page tested:
-            <a href="https://saurav702-ui.github.io/Web-programming/week%205/task2.html">
-                JavaScript Basics Website
-            </a>
+            <a href="task2.html">JavaScript Basics Website</a>
         </p>
-
-        <!-- Lighthouse Results -->
 
         <section aria-labelledby="scores">
 
             <h2 id="scores">Lighthouse Results</h2>
 
             <table>
-
                 <caption class="sr-only">
                     Accessibility scores before and after the fixes
                 </caption>
@@ -224,7 +197,6 @@
                 </thead>
 
                 <tbody>
-
                     <tr>
                         <th scope="row">
                             <span class="tag before">Before</span>
@@ -237,29 +209,38 @@
                         <th scope="row">
                             <span class="tag after">After</span>
                         </th>
-                        <td>Update after testing</td>
-                        <td>Update after testing</td>
+                        <td>100</td>
+                        <td>0</td>
                     </tr>
-
                 </tbody>
-
             </table>
 
-            <p style="margin-top: 1rem;">
+            <p>
                 Tool: Chrome DevTools Lighthouse,
                 Accessibility category.
             </p>
 
-            <p>
-                The original website had an accessibility score of 82.
-                The updated website will be tested again to confirm
-                the final score.
-            </p>
+            <figure>
+                <img
+                    src="initial.png"
+                    alt="Initial Lighthouse accessibility report showing a score of 82."
+                >
+                <figcaption>
+                    Before: Accessibility score of 82.
+                </figcaption>
+            </figure>
+
+            <figure>
+                <img
+                    src="final.png"
+                    alt="Final Lighthouse accessibility report showing the accessibility score after the fixes."
+                >
+                <figcaption>
+                    After: Final accessibility score.
+                </figcaption>
+            </figure>
 
         </section>
-
-
-        <!-- Fix 1 -->
 
         <section aria-labelledby="fix1">
 
@@ -281,21 +262,16 @@
 
             <h3>Before</h3>
 
-<pre tabindex="0"><code>&lt;p&gt;Enter a score:&lt;/p&gt;
+<pre><code>&lt;p&gt;Enter a score:&lt;/p&gt;
 &lt;input type="number" id="scoreInput"&gt;</code></pre>
 
             <h3>After</h3>
 
-<pre tabindex="0"><code>&lt;label for="scoreInput"&gt;
-    Enter a score (0-100):
+<pre><code>&lt;label for="scoreInput"&gt;
+    Enter a score:
 &lt;/label&gt;
 
-&lt;input
-    type="number"
-    id="scoreInput"
-    min="0"
-    max="100"
-&gt;</code></pre>
+&lt;input type="number" id="scoreInput"&gt;</code></pre>
 
             <p>
                 The same improvement was applied to the name input
@@ -303,9 +279,6 @@
             </p>
 
         </section>
-
-
-        <!-- Fix 2 -->
 
         <section aria-labelledby="fix2">
 
@@ -327,36 +300,21 @@
 
             <h3>Before</h3>
 
-<pre tabindex="0"><code>&lt;body&gt;
-
+<pre><code>&lt;body&gt;
     &lt;h1&gt;JavaScript Basics&lt;/h1&gt;
-
-    &lt;section&gt;
-        ...
-    &lt;/section&gt;
-
+    &lt;section&gt;...&lt;/section&gt;
 &lt;/body&gt;</code></pre>
 
             <h3>After</h3>
 
-<pre tabindex="0"><code>&lt;body&gt;
-
+<pre><code>&lt;body&gt;
     &lt;main&gt;
-
         &lt;h1&gt;JavaScript Basics&lt;/h1&gt;
-
-        &lt;section&gt;
-            ...
-        &lt;/section&gt;
-
+        &lt;section&gt;...&lt;/section&gt;
     &lt;/main&gt;
-
 &lt;/body&gt;</code></pre>
 
         </section>
-
-
-        <!-- Fix 3 -->
 
         <section aria-labelledby="fix3">
 
@@ -366,30 +324,26 @@
             </h2>
 
             <p>
-                <strong>Why it matters:</strong>
                 Keyboard users can skip directly to the main content
                 instead of navigating through every element.
             </p>
 
             <h3>HTML</h3>
 
-<pre tabindex="0"><code>&lt;a href="#main-content" class="skip-link"&gt;
+<pre><code>&lt;a href="#main-content" class="skip-link"&gt;
     Skip to main content
 &lt;/a&gt;</code></pre>
 
             <h3>CSS</h3>
 
-<pre tabindex="0"><code>.skip-link {
+<pre><code>.skip-link {
     position: absolute;
     left: -9999px;
 }
 
 .skip-link:focus {
-    left: 0.5rem;
-    top: 0.5rem;
-    background: #1a2744;
-    color: white;
-    padding: 0.5rem 1rem;
+    left: .5rem;
+    top: .5rem;
 }</code></pre>
 
             <p>
@@ -399,43 +353,21 @@
 
         </section>
 
-
-        <!-- Additional Improvements -->
-
         <section aria-labelledby="extra">
 
             <h2 id="extra">Other Improvements</h2>
 
             <ul>
-
-                <li>
-                    Added a viewport meta tag for mobile devices.
-                </li>
-
-                <li>
-                    Added visible keyboard focus outlines.
-                </li>
-
-                <li>
-                    Added aria-live attributes to result messages.
-                </li>
-
-                <li>
-                    Improved form validation for score and number inputs.
-                </li>
-
-                <li>
-                    Used semantic HTML elements such as main,
-                    section, and lists.
-                </li>
-
+                <li>Added a viewport meta tag for mobile devices.</li>
+                <li>Added visible keyboard focus outlines.</li>
+                <li>Added aria-live attributes to result messages.</li>
+                <li>Improved form validation.</li>
+                <li>Used semantic HTML elements such as main and section.</li>
             </ul>
 
             <p>
                 <strong>Final Project:</strong>
-                <a href="https://saurav702-ui.github.io/Web-programming/week%205/task2.html">
-                    JavaScript Basics Website
-                </a>
+                <a href="task2.html">JavaScript Basics Website</a>
             </p>
 
         </section>
