@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Website Performance Audit Report | Saurav</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1d3557;
+            margin-bottom: 35px;
+        }
+
+        h2 {
+            color: #1d3557;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 8px;
+            margin-top: 35px;
+        }
+
+        h3 {
+            color: #457b9d;
+            margin-top: 25px;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        .score {
+            display: inline-block;
+            background: #d8f3dc;
+            color: #1b4332;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #eaf2f8;
+        }
+
+        figure {
+            margin: 25px 0;
+        }
+
+        figure img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        figcaption {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        pre {
+            background: #f1f3f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: monospace;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1d3557;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>Website Performance Audit Report</h1>
+
+        <p style="text-align: center;">
+            Prepared by: <strong>Saurav</strong>
+        </p>
+
+        <!-- 1. Introduction -->
+        <section>
+            <h2>1. Introduction</h2>
+
+            <p>
+                I used Google Lighthouse to evaluate the performance of my
+                personal portfolio website. I conducted the audit before
+                and after making improvements to identify performance
+                issues and measure the effectiveness of the changes.
+            </p>
+        </section>
+
+        <!-- 2. Before Improvements -->
+        <section>
+            <h2>2. Before the Improvements</h2>
+
+            <p>
+                Initial Lighthouse performance score:
+                <span class="score">89/100</span>
+            </p>
+
+            <p>
+                My website loaded relatively quickly, but Lighthouse
+                identified several opportunities to improve its performance.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Metric</th>
+                        <th scope="col">Before</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <th scope="row">First Contentful Paint</th>
+                        <td>0.6 s</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Largest Contentful Paint</th>
+                        <td>0.6 s</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Total Blocking Time</th>
+                        <td>0 ms</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Cumulative Layout Shift</th>
+                        <td>0.211</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Speed Index</th>
+                        <td>0.6 s</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <figure>
+                <img src="before-score.png"
+                     alt="Lighthouse performance score before improvements">
+
+                <figcaption>
+                    Lighthouse performance score before improvements.
+                </figcaption>
+            </figure>
+
+            <figure>
+                <img src="before-metrics.png"
+                     alt="Lighthouse performance metrics before improvements">
+
+                <figcaption>
+                    Performance metrics before improvements.
+                </figcaption>
+            </figure>
+        </section>
+
+        <!-- 3. Issues -->
+        <section>
+            <h2>3. Issues Identified</h2>
+
+            <p>
+                The Lighthouse report identified several issues that could
+                affect my website's performance.
+            </p>
+
+            <h3>Issue 1: Render-blocking resources</h3>
+
+            <p>
+                Some CSS and font resources delayed the browser from
+                displaying the website. These resources needed to be
+                downloaded and processed before the page could be displayed.
+            </p>
+
+            <h3>Issue 2: Layout shifts</h3>
+
+            <p>
+                Some elements moved while the page was loading. This affected
+                the visual stability of the website and made the loading
+                experience less smooth.
+            </p>
+
+            <h3>Issue 3: Large resources</h3>
+
+            <p>
+                Some files could be optimized to reduce their size and improve
+                loading speed.
+            </p>
+
+            <figure>
+                <img src="before-insights.png"
+                     alt="Lighthouse insights showing performance issues">
+
+                <figcaption>
+                    Performance issues identified by Lighthouse.
+                </figcaption>
+            </figure>
+        </section>
+
+        <!-- 4. Performance Improvements -->
+        <section>
+            <h2>4. Performance Improvements</h2>
+
+            <h3>Fix 1: Optimizing CSS</h3>
+
+            <p>
+                I removed unnecessary CSS rules and organized my stylesheet
+                to reduce its size. This helped the browser process the
+                stylesheet more efficiently.
+            </p>
+
+            <h3>Fix 2: Optimizing Images</h3>
+
+            <p>
+                I optimized images used on my website to reduce their file
+                sizes while maintaining acceptable image quality.
+            </p>
+
+            <h3>Fix 3: Improving Resource Loading</h3>
+
+            <p>
+                I improved the way important resources are loaded so that
+                the browser can display the main content more efficiently.
+            </p>
+        </section>
+
+        <!-- 5. After Improvements -->
+        <section>
+            <h2>5. After the Improvements</h2>
+
+            <p>
+                Final Lighthouse performance score:
+                <span class="score">100/100</span>
+            </p>
+
+            <figure>
+                <img src="after-score.png"
+                     alt="Lighthouse performance score after improvements">
+
+                <figcaption>
+                    Lighthouse performance score after improvements.
+                </figcaption>
+            </figure>
+
+            <figure>
+                <img src="after-metrics.png"
+                     alt="Lighthouse performance metrics after improvements">
+
+                <figcaption>
+                    Performance metrics after improvements.
+                </figcaption>
+            </figure>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Metric</th>
+                        <th scope="col">Before</th>
+                        <th scope="col">After</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <th scope="row">Performance score</th>
+                        <td>89</td>
+                        <td>100</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">First Contentful Paint</th>
+                        <td>0.6 s</td>
+                        <td>0.3 s</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Largest Contentful Paint</th>
+                        <td>0.6 s</td>
+                        <td>0.3 s</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Total Blocking Time</th>
+                        <td>0 ms</td>
+                        <td>0 ms</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Cumulative Layout Shift</th>
+                        <td>0.211</td>
+                        <td>0</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Speed Index</th>
+                        <td>0.6 s</td>
+                        <td>0.3 s</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 6. Most Important Change -->
+        <section>
+            <h2>6. Which Change Mattered Most?</h2>
+
+            <p>
+                The most important improvements were optimizing the resources
+                that affected the initial loading of the website.
+                By reducing unnecessary resources and improving the loading
+                process, I was able to improve the overall performance.
+            </p>
+
+            <p>
+                The improvements also made the website more visually stable
+                and reduced the time needed to display the main content.
+            </p>
+        </section>
+
+        <!-- 7. Conclusion -->
+        <section>
+            <h2>7. Conclusion</h2>
+
+            <p>
+                This performance audit helped me understand how different
+                resources affect website loading speed. By identifying
+                performance issues and making improvements, I was able to
+                create a faster and more efficient portfolio website.
+            </p>
+
+            <p>
+                The Lighthouse audit provided useful information about
+                the website's performance and helped me evaluate the
+                effectiveness of my improvements.
+            </p>
+        </section>
+
+        <a class="back" href="../index.html">
+            &larr; Return to all assignments
+        </a>
+
+    </main>
+
+</body>
+
+</html>
