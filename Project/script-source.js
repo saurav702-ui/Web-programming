@@ -1,8 +1,5 @@
 /* BiHE.COM interactions: sample data, UI behavior, validation, and animations. */
 
-/* -----------------------------
-       Tiny helpers and shared state
-       ----------------------------- */
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
     const toast = (message) => {
