@@ -1,9 +1,4 @@
 /* BiHE.COM styles: responsive layout, theme variables, components, and animations. */
-
-/* ============================================================
-       BiHE.COM — responsive, single-file front-end demo
-       All data and interactions are local; no backend is required.
-       ============================================================ */
     :root {
       --wine: #4a172b;
       --wine-2: #6d233f;
