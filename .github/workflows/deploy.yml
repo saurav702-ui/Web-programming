@@ -1,4 +1,4 @@
-name: Deploy React Website
+name: Deploy React Practice Lab
 
 on:
   push:
@@ -14,12 +14,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install dependencies
         working-directory: ./week11_2
@@ -29,10 +35,21 @@ jobs:
         working-directory: ./week11_2
         run: npm run build
 
-      - uses: actions/configure-pages@v5
+      - name: Prepare website
+        run: |
+          mkdir -p _site
+          rsync -a --exclude='.git/' --exclude='node_modules/' --exclude='dist/' --exclude='_site/' ./ _site/
+          mkdir -p _site/week11_2
+          rsync -a week11_2/dist/ _site/week11_2/
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: ./week11_2/dist
+          path: ./_site
 
-      - uses: actions/deploy-pages@v4
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
