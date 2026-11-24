@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f7f6ef" />
+  <title>Week 12 | React State Lab — Saurav Luitel</title>
+  <style>
+    :root{--ink:#123b2d;--ink-2:#285642;--muted:#64766b;--paper:#f7f6ef;--card:#fffefa;--line:#dce5d9;--lime:#dff3a9;--lime-2:#edf8d8;--shadow:0 12px 30px rgba(26,57,40,.07);--danger:#a33e42;--gold:#f4d98a}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 88% 5%,#eaf4d7 0,transparent 23rem),var(--paper);color:#20352b;font:16px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,input,textarea,select{font:inherit}button{border:1px solid #cbd9c9;border-radius:12px;padding:9px 14px;background:#fffefa;color:var(--ink);font-weight:650;cursor:pointer;transition:.18s ease}button:hover:not(:disabled){transform:translateY(-1px);border-color:var(--ink-2);background:var(--lime-2)}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #9bc66d;outline-offset:2px}
+    .topbar{height:70px;border-bottom:1px solid var(--line);background:rgba(255,254,250,.88);display:flex;align-items:center;justify-content:space-between;padding:0 max(5vw,22px);position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}.brand{font-weight:900;letter-spacing:-.04em;color:var(--ink);font-size:19px}.brand span{color:#7c9b66}.toplinks{display:flex;gap:22px;align-items:center}.toplinks a{color:var(--ink-2);font-weight:650;text-decoration:none}.week-pill{background:var(--ink);color:white;padding:8px 15px;border-radius:999px;font-weight:750;font-size:13px}
+    main{max-width:1180px;margin:auto;padding:30px 24px 70px}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:center;padding:38px 4px 28px}.eyebrow{text-transform:uppercase;letter-spacing:.16em;color:#66805c;font-size:12px;font-weight:850}.hero h1{font-family:Georgia,serif;color:var(--ink);font-size:clamp(46px,7vw,82px);letter-spacing:-.055em;line-height:.98;margin:12px 0}.hero h1 em{font-style:normal;color:#8bab60}.hero p.lead{font-size:18px;color:#53665b;max-width:650px;margin:15px 0 20px}.hero-visual{min-height:220px;border-radius:26px;background:linear-gradient(145deg,#174b37,#0e3326);padding:23px;color:#f7f8ed;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero-visual:after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;background:#c6e98b;opacity:.16;right:-55px;top:-70px}.code-label{font-size:12px;color:#c5e79c;letter-spacing:.12em;font-weight:800}.code-lines{font:14px/1.9 ui-monospace,SFMono-Regular,Menlo,monospace;margin-top:18px;position:relative;z-index:1}.code-lines b{color:#d5f49c}.hero-mark{font-size:48px;position:absolute;right:24px;bottom:15px;color:#c9ef9b;opacity:.9}
+    .identity-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:10px 0 36px}.panel,.exercise-card,.menu{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.profile{display:flex;align-items:center;gap:18px;padding:20px 24px}.avatar{width:76px;height:76px;flex:0 0 76px;border-radius:50%;background:var(--lime);display:grid;place-items:center;color:var(--ink);font-size:27px;font-weight:900}.profile h2{font: bold 26px Georgia,serif;color:var(--ink);margin:0 0 5px}.profile p{margin:2px 0;color:#52675b}.progress-panel{padding:20px 24px}.progress-head{display:flex;justify-content:space-between;align-items:center;color:var(--ink);font-weight:800}.progress-head strong{font-size:23px}.progress{height:10px;width:100%;border-radius:99px;background:#e7ece2;overflow:hidden;margin:12px 0 8px}.progress span{height:100%;display:block;background:#9bc66d;border-radius:99px;transition:width .25s}.progress-panel p{margin:0;color:var(--muted);font-size:14px}
+    .section-heading{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:0 0 16px}.section-heading h2{font: bold clamp(27px,4vw,38px) Georgia,serif;color:var(--ink);margin:0}.section-heading p{color:var(--muted);margin:5px 0 0}.count-tag{border:1px solid #c7d8bc;border-radius:99px;padding:8px 13px;background:#f4f9e9;color:var(--ink);font-weight:750;white-space:nowrap}
+    .workspace{display:grid;grid-template-columns:245px minmax(0,1fr);gap:18px;align-items:start}.menu{padding:17px;position:sticky;top:88px}.menu h3{margin:0;color:var(--ink);font: bold 22px Georgia,serif}.menu .small{font-size:13px;color:var(--muted);margin:4px 0 12px}.menu-list{display:grid;gap:7px}.menu-list button{text-align:left;display:flex;gap:10px;align-items:center;padding:11px 12px}.menu-list button[aria-pressed=true]{background:var(--lime-2);border-color:#a9c58f}.num{display:grid;place-items:center;width:25px;height:25px;border-radius:8px;background:#eff2e9;color:#45644c;font-size:12px}.menu progress{width:100%;accent-color:#85ad5c;margin:4px 0 14px}.stage{min-width:0}.stage-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 10px}.stage-top span{color:#708274;font-size:12px;font-weight:850;letter-spacing:.12em}.exercise-card{padding:24px;min-height:390px}.exercise-card h2{font: bold 29px Georgia,serif;color:var(--ink);margin:0 0 6px}.intro{color:var(--muted);margin:0 0 20px}.subcard{background:#fbfcf6;border:1px solid #e3ebdc;border-radius:15px;padding:16px;margin:12px 0}.subcard h3{margin:0 0 10px;color:var(--ink);font-size:17px}.row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.row.between{justify-content:space-between}.muted{color:var(--muted)}.primary{background:var(--ink);color:#fff;border-color:var(--ink)}.primary:hover:not(:disabled){background:#285b43;color:white}.soft{background:var(--lime-2)}.danger{color:var(--danger)}input[type=text],input[type=number],textarea,select{width:100%;border:1px solid #cbd9c9;border-radius:11px;padding:10px 12px;background:#fff;color:#20352b}label.field{display:block;font-weight:700;color:var(--ink);margin:10px 0 5px}.score{font: bold 52px Georgia,serif;color:var(--ink);margin:5px 0}.stat{font-weight:800;color:var(--ink)}.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product{border:1px solid var(--line);border-radius:15px;padding:13px;background:white}.product-icon{height:82px;border-radius:11px;background:linear-gradient(135deg,#eef5df,#dcecc7);display:grid;place-items:center;font-size:37px}.product h4{margin:9px 0 2px;color:var(--ink)}.product p{margin:0 0 9px;color:var(--muted);font-size:14px}.cart-list,.queue-list{list-style:none;padding:0;margin:0}.cart-list li,.queue-list li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #e8eee3}.cart-list li:last-child,.queue-list li:last-child{border-bottom:0}.cart-list small{display:block;color:var(--muted)}.budget{width:100%;accent-color:#84aa5e}.notice{padding:10px 13px;border-radius:11px;background:#f1f7e7;color:#46633f;font-weight:700}.notice.over{background:#fff0ed;color:#a33e42}.history{display:flex;gap:7px;flex-wrap:wrap}.history span{background:#eff5e6;border-radius:9px;padding:6px 10px;color:#46633f;font-weight:750}.player-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.player{text-align:center}.player .score{font-size:46px}.tip-box{background:#eff6e5;border-left:4px solid #95bb6b;padding:15px;border-radius:0 12px 12px 0;color:#34543d}.empty{color:#78877c;text-align:center;padding:22px 8px}.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:15px}.footer{margin-top:38px;text-align:center;color:#839086;font-size:13px}
+    @media(max-width:780px){.hero{grid-template-columns:1fr}.hero-visual{min-height:190px}.identity-row{grid-template-columns:1fr}.workspace{grid-template-columns:1fr}.menu{position:static}.menu-list{grid-template-columns:repeat(2,minmax(0,1fr))}.exercise-card{padding:18px}.toplinks{gap:10px}.toplinks a{display:none}}
+    @media(max-width:480px){main{padding:20px 14px 50px}.topbar{padding:0 15px}.product-grid,.player-grid{grid-template-columns:1fr}.section-heading{align-items:start;flex-direction:column}.profile{padding:16px}.avatar{width:60px;height:60px;flex-basis:60px}.hero h1{font-size:52px}}
+  </style>
+</head>
+<body>
+  <nav class="topbar"><div class="brand">&lt;/&gt; REACT <span>WORKSHOP</span></div><div class="toplinks"><a href="#overview">Overview</a><a href="#lab">Exercises</a></div><div class="week-pill">WEEK 12</div></nav>
+  <main id="overview">
+    <section class="hero">
+      <div><div class="eyebrow">WEB PROGRAMMING · WEEK 12</div><h1>Make state<br><em>come alive.</em></h1><p class="lead">Build small interactive tools and practise how React remembers changes with state, events, lists and controlled inputs.</p><div class="row"><span class="count-tag">6 hands-on exercises</span><span class="count-tag">React · useState · Events</span></div></div>
+      <div class="hero-visual"><div class="code-label">APP.JSX / STATE LAB</div><div class="code-lines"><div><b>const</b> [count, setCount] = useState(0);</div><div></div><div><b>function</b> addOne() {'{'}</div><div>&nbsp;&nbsp;setCount(count + 1);</div><div>{'}'}</div><div></div><div><b>return</b> &lt;button&gt;{ '{count}' }&lt;/button&gt;;</div></div><div class="hero-mark">✳</div></div>
+    </section>
+    <section class="identity-row">
+      <div class="panel profile"><div class="avatar">SL</div><div><h2>Saurav Luitel</h2><p>Student ID: 202537255</p><p>Computer Engineering · Gachon University</p></div></div>
+      <div class="panel progress-panel"><div class="progress-head"><span>Your practice progress</span><strong id="progress-count">0 / 6</strong></div><div class="progress"><span id="progress-fill" style="width:0%"></span></div><p>Mark each exercise as practised when you finish it.</p></div>
+    </section>
+    <section id="lab"><div class="section-heading"><div><h2>State & Events Lab</h2><p>Six interactive challenges. Choose an exercise and experiment.</p></div><span class="count-tag">6 exercises</span></div>
+      <div class="workspace">
+        <aside class="menu"><h3>Exercise list</h3><p class="small">Select a challenge to open it.</p><progress id="menu-progress" max="6" value="0"></progress><div class="menu-list" id="menu-list"></div></aside>
+        <div class="stage"><div class="stage-top"><span id="stage-label">EXERCISE 01 / HOMEWORK</span><button id="mark-btn" class="soft">Mark as practised</button></div><div class="exercise-card" id="exercise-content" aria-live="polite"></div><div class="footer-nav"><button id="previous-btn">← Previous</button><span class="muted" id="stage-number">1 / 6</span><button id="next-btn" class="primary">Next →</button></div></div>
+      </div>
+    </section>
+    <div class="footer">React Workshop · Week 12 · Built by Saurav Luitel</div>
+  </main>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const { useState } = React;
+    const money = n => new Intl.NumberFormat('en-KR', { style: 'currency', currency: 'KRW', maximumFractionDigits: 0 }).format(n);
+    const products = [
+      { id: 1, name: 'Wireless Headphones', price: 189000, icon: '🎧', category: 'Audio' },
+      { id: 2, name: 'Laptop', price: 1590000, icon: '💻', category: 'Computers' },
+      { id: 3, name: 'Tablet', price: 890000, icon: '📱', category: 'Mobile' },
+      { id: 4, name: 'Mechanical Keyboard', price: 129000, icon: '⌨️', category: 'Accessories' },
+      { id: 5, name: 'Smart Watch', price: 299000, icon: '⌚', category: 'Mobile' }
+    ];
+    const tips = [
+      'Keep state in the component that owns the data.',
+      'Use a functional state update when the next value depends on the previous value.',
+      'When rendering lists, give each item a stable key.',
+      'Controlled inputs get their value from React state.'
+    ];
+    const exerciseNames = ['Shopping Cart', 'Counter with History', 'Two-Player Scoreboard', 'Live Word Count', 'Quick React Tip', 'Study Queue'];
+
+    function ShoppingCart() {
+      const [cart, setCart] = useState([]);
+      const [budget, setBudget] = useState(3000000);
+      const [category, setCategory] = useState('All');
+      const add = product => setCart(old => {
+        const found = old.find(item => item.id === product.id);
+        return found ? old.map(item => item.id === product.id ? { ...item, qty: item.qty + 1 } : item) : [...old, { ...product, qty: 1 }];
+      });
+      const changeQty = (id, delta) => setCart(old => old.map(item => item.id === id ? { ...item, qty: item.qty + delta } : item).filter(item => item.qty > 0));
+      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const visible = products.filter(p => category === 'All' || p.category === category);
+      return <>
+        <div className="row" style={{marginBottom:12}}>{['All','Audio','Computers','Mobile','Accessories'].map(c => <button key={c} className={category===c?'soft':''} aria-pressed={category===c} onClick={()=>setCategory(c)}>{c}</button>)}</div>
+        <div className="product-grid">{visible.map(p => <article className="product" key={p.id}><div className="product-icon">{p.icon}</div><h4>{p.name}</h4><p>{money(p.price)}</p><button className="primary" onClick={()=>add(p)}>Add to cart</button></article>)}</div>
+        <div className="subcard"><h3>Your shopping cart</h3><label className="field">Budget: {money(budget)}</label><input className="budget" type="range" min="300000" max="6000000" step="100000" value={budget} onChange={e=>setBudget(Number(e.target.value))}/>
+          {cart.length===0 ? <p className="empty">Your cart is empty. Add a product to begin.</p> : <ul className="cart-list">{cart.map(item=><li key={item.id}><div><strong>{item.name}</strong><small>{money(item.price)} each · {money(item.price*item.qty)}</small></div><div className="row"><button aria-label={'Decrease '+item.name} onClick={()=>changeQty(item.id,-1)}>−</button><strong>{item.qty}</strong><button aria-label={'Increase '+item.name} onClick={()=>changeQty(item.id,1)}>+</button><button onClick={()=>setCart(old=>old.filter(x=>x.id!==item.id))}>Remove</button></div></li>)}</ul>}
+          <p className="stat">Total: {money(total)}</p><p className={'notice '+(total>budget?'over':'')}>{total>budget?`You are ${money(total-budget)} over budget.`:`${money(budget-total)} remaining in your budget.`}</p><button onClick={()=>setCart([])} disabled={!cart.length}>Clear cart</button>
+        </div>
+      </>;
+    }
+    function CounterHistory() {
+      const [count,setCount] = useState(0); const [history,setHistory] = useState([0]);
+      const update = next => { if(next===count) return; setCount(next); setHistory(old=>[...old,next].slice(-6)); };
+      const undo = () => { if(history.length<2)return; const previous=history[history.length-2]; setCount(previous); setHistory(old=>old.slice(0,-1)); };
+      return <><div className="score">{count}</div><div className="row"><button onClick={()=>update(count-1)}>− Decrease</button><button className="primary" onClick={()=>update(count+1)}>+ Increase</button><button onClick={()=>update(0)}>Reset</button><button onClick={undo} disabled={history.length<2}>Undo</button></div><div className="subcard"><h3>Recent history</h3><div className="history">{history.map((n,i)=><span key={i}>{n}</span>)}</div></div></>;
+    }
+    function Scoreboard() {
+      const [scores,setScores] = useState([0,0]);
+      const update = (index,delta) => setScores(old=>old.map((score,i)=>i===index?score+delta:score));
+      return <><div className="player-grid">{scores.map((score,i)=><div className="subcard player" key={i}><h3>Player {i+1}</h3><div className="score">{score}</div><div className="row"><button onClick={()=>update(i,-1)}>−1</button><button className="primary" onClick={()=>update(i,1)}>+1</button></div></div>)}</div><p className="notice">Combined score: {scores[0]+scores[1]}</p><button onClick={()=>setScores([0,0])}>Reset scoreboard</button></>;
+    }
+    function WordCount() {
+      const [text,setText] = useState(''); const words=text.trim()?text.trim().split(/\s+/).length:0;
+      return <><label className="field" htmlFor="word-input">Write your notes</label><textarea id="word-input" rows="7" value={text} onChange={e=>setText(e.target.value)} placeholder="Start typing your notes here…"/><p className="notice" aria-live="polite">{words} words · {text.length} characters</p><button onClick={()=>setText('')} disabled={!text}>Clear text</button></>;
+    }
+    function QuickTip() {
+      const [visible,setVisible] = useState(false); const [index,setIndex] = useState(0);
+      return <><button className="primary" aria-expanded={visible} onClick={()=>setVisible(v=>!v)}>{visible?'Hide tip':'Show tip'}</button>{visible&&<><div className="tip-box" style={{marginTop:15}}>{tips[index]}</div><p className="muted">Tip {index+1} of {tips.length}</p><div className="row"><button onClick={()=>setIndex(i=>(i-1+tips.length)%tips.length)}>Previous tip</button><button className="soft" onClick={()=>setIndex(i=>(i+1)%tips.length)}>Next tip →</button></div></>}</>;
+    }
+    function StudyQueue() {
+      const [input,setInput] = useState(''); const [items,setItems] = useState([]);
+      const add = e => { e.preventDefault(); const value=input.trim(); if(!value)return; setItems(old=>[...old,{id:Date.now()+Math.random(),text:value,done:false}]); setInput(''); };
+      const done=items.filter(item=>item.done).length;
+      return <><form className="row" onSubmit={add}><input style={{flex:1,minWidth:180}} aria-label="New study task" value={input} onChange={e=>setInput(e.target.value)} placeholder="e.g. Review useState notes"/><button className="primary" type="submit" disabled={!input.trim()}>Add task</button></form><p className="notice">{done} of {items.length} tasks completed</p>{items.length===0?<p className="empty">Your study queue is empty. Add your first task above.</p>:<ul className="queue-list">{items.map(item=><li key={item.id}><label className="row"><input type="checkbox" checked={item.done} onChange={()=>setItems(old=>old.map(x=>x.id===item.id?{...x,done:!x.done}:x))}/><span style={{textDecoration:item.done?'line-through':'none'}}>{item.text}</span></label><button onClick={()=>setItems(old=>old.filter(x=>x.id!==item.id))}>Remove</button></li>)}</ul>}<button onClick={()=>setItems(old=>old.filter(x=>!x.done))} disabled={!done}>Clear completed</button></>;
+    }
+    const components=[ShoppingCart,CounterHistory,Scoreboard,WordCount,QuickTip,StudyQueue];
+    const descriptions=['Build a technology shopping cart and manage a spending limit.','Update a counter, review its history and undo a change.','Track two players’ scores independently.','Count words and characters while typing.','Reveal and browse short React learning tips.','Create a study task list and track completion.'];
+    function App(){
+      const [active,setActive]=useState(0); const [practiced,setPracticed]=useState([]); const Exercise=components[active];
+      const toggle=()=>setPracticed(old=>old.includes(active)?old.filter(i=>i!==active):[...old,active]);
+      return <>
+        <nav className="topbar"><div className="brand">&lt;/&gt; REACT <span>WORKSHOP</span></div><div className="toplinks"><a href="#overview">Overview</a><a href="#lab">Exercises</a></div><div className="week-pill">WEEK 12</div></nav>
+        <main id="overview">
+          <section className="hero"><div><div className="eyebrow">WEB PROGRAMMING · WEEK 12</div><h1>Make state<br/><em>come alive.</em></h1><p className="lead">Build small interactive tools and practise how React remembers changes with state, events, lists and controlled inputs.</p><div className="row"><span className="count-tag">6 hands-on exercises</span><span className="count-tag">React · useState · Events</span></div></div><div className="hero-visual"><div className="code-label">APP.JSX / STATE LAB</div><div className="code-lines"><div><b>const</b> [count, setCount] = useState(0);</div><br/><div><b>function</b> addOne() {'{'}</div><div>　setCount(count + 1);</div><div>{'}'}</div><br/><div><b>return</b> &lt;button&gt;{'{count}'}&lt;/button&gt;;</div></div><div className="hero-mark">✳</div></div></section>
+          <section className="identity-row"><div className="panel profile"><div className="avatar">SL</div><div><h2>Saurav Luitel</h2><p>Student ID: 202537255</p><p>Computer Engineering · Gachon University</p></div></div><div className="panel progress-panel"><div className="progress-head"><span>Your practice progress</span><strong>{practiced.length} / 6</strong></div><div className="progress"><span style={{width:`${practiced.length/6*100}%`}}/></div><p>Mark each exercise as practised when you finish it.</p></div></section>
+          <section id="lab"><div className="section-heading"><div><h2>State & Events Lab</h2><p>Six interactive challenges. Choose an exercise and experiment.</p></div><span className="count-tag">6 exercises</span></div><div className="workspace">
+            <aside className="menu"><h3>Exercise list</h3><p className="small">Select a challenge to open it.</p><progress max="6" value={practiced.length}/><div className="menu-list">{exerciseNames.map((name,i)=><button key={name} aria-pressed={active===i} onClick={()=>setActive(i)}><span className="num">{String(i+1).padStart(2,'0')}</span>{name}{practiced.includes(i)?' ✓':''}</button>)}</div></aside>
+            <div className="stage"><div className="stage-top"><span>EXERCISE {String(active+1).padStart(2,'0')} / {active===0?'HOMEWORK':'PRACTICE'}</span><button className="soft" aria-pressed={practiced.includes(active)} onClick={toggle}>{practiced.includes(active)?'Practised ✓':'Mark as practised'}</button></div><div className="exercise-card"><h2>{exerciseNames[active]}</h2><p className="intro">{descriptions[active]}</p><Exercise/></div><div className="footer-nav"><button onClick={()=>setActive(i=>i-1)} disabled={active===0}>← Previous</button><span className="muted">{active+1} / 6</span><button className="primary" onClick={()=>setActive(i=>i+1)} disabled={active===5}>Next →</button></div></div>
+          </div></section><div className="footer">React Workshop · Week 12 · Built by Saurav Luitel</div>
+        </main>
+      </>;
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+  </script>
+</body>
+</html>
