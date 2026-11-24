@@ -35,13 +35,14 @@ jobs:
         working-directory: ./week11_2
         run: npm run build
 
-      - name: Prepare website
+          - name: Prepare website
         run: |
           mkdir -p _site
           rsync -a --exclude='.git/' --exclude='node_modules/' --exclude='dist/' --exclude='_site/' ./ _site/
           mkdir -p _site/week11_2
           rsync -a week11_2/dist/ _site/week11_2/
-
+          mkdir -p _site/week12_2
+          rsync -a week12_2/ _site/week12_2/
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
