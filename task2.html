@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Task 2 · GitHub User Lookup</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="topbar"><a class="brand" href="index.html">〈 / 〉 REACT WORKSHOP</a><span class="pill">WEEK 12.2</span></header><main class="wrap"><section class="hero"><div class="kicker">Web Programming · Friday Lab</div><h1>Task 2 · GitHub User Lookup</h1><p>Search GitHub users and practice asynchronous effects, loading states and AbortController cleanup.</p></section>
+<div class="student"><div class="avatar">SL</div><div><h3>Saurav Luitel</h3><p>Student ID: 202537255 · Computer Engineering</p><p>Gachon University</p></div></div>
+
+<div class="panel"><h2>Find a GitHub profile</h2><p class="muted">Enter a GitHub username. Requests are cancelled when you search again, preventing old responses from replacing newer results.</p><div class="row"><input id="username" type="text" value="octocat" placeholder="GitHub username"><button class="btn" id="lookup">Look up user</button></div><p id="status" class="muted" aria-live="polite"></p><div id="profile"></div></div>
+<div class="panel"><h2>Effect lifecycle checklist</h2><ul class="list"><li>Effect runs when the username changes.</li><li>Cleanup aborts the previous network request.</li><li>Loading and error states are displayed separately.</li><li>Profile details are rendered only after a successful response.</li></ul></div>
+<script>
+let controller=null;const $=id=>document.getElementById(id);
+async function lookup(){
+ const name=$("username").value.trim();if(!name)return;
+ if(controller)controller.abort();controller=new AbortController();
+ $("status").textContent="Loading profile…";$("profile").innerHTML="";
+ try{
+  const r=await fetch("https://api.github.com/users/"+encodeURIComponent(name),{signal:controller.signal,headers:{"Accept":"application/vnd.github+json"}});
+  if(r.status===404)throw new Error("No GitHub user was found with that username.");
+  if(!r.ok)throw new Error("GitHub API request failed ("+r.status+"). Please try again later.");
+  const u=await r.json();
+  $("status").textContent="Profile loaded successfully.";
+  $("profile").innerHTML=`<div class="result profile"><img src="${u.avatar_url}" alt="GitHub avatar"><div><h3>${u.name||u.login}</h3><p>@${u.login} · ${u.location||"Location not provided"}</p><p>${u.bio||"No bio provided."}</p><a class="btn" target="_blank" rel="noopener" href="${u.html_url}">Open GitHub profile</a></div></div><div class="statgrid"><div class="stat"><strong>${u.public_repos}</strong>Public repositories</div><div class="stat"><strong>${u.followers}</strong>Followers</div><div class="stat"><strong>${u.following}</strong>Following</div></div>`;
+ }catch(e){if(e.name!=="AbortError"){$("status").textContent="";$("profile").innerHTML='<div class="error">'+e.message+'</div>'}}
+}
+$("lookup").addEventListener("click",lookup);$("username").addEventListener("keydown",e=>{if(e.key==="Enter")lookup()});lookup();
+</script>
+</main><footer class="footer">Web Programming · Week 12.2 · React Effects &amp; useEffect</footer></body></html>
