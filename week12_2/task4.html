@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Task 4 · Effects Lifecycle Lab</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="topbar"><a class="brand" href="index.html">〈 / 〉 REACT WORKSHOP</a><span class="pill">WEEK 12.2</span></header><main class="wrap"><section class="hero"><div class="kicker">Web Programming · Friday Lab</div><h1>Task 4 · Effects Lifecycle Lab</h1><p>Explore dependency arrays, cleanup functions, race conditions, derived state and infinite-loop traps.</p></section>
+<div class="student"><div class="avatar">SL</div><div><h3>Saurav Luitel</h3><p>Student ID: 202537255 · Computer Engineering</p><p>Gachon University</p></div></div>
+
+<div class="panel"><h2>01 · Three dependency patterns</h2><p class="muted">These controls illustrate the common dependency-array patterns used by React effects.</p><div class="statgrid"><div class="stat"><strong id="mountCount">0</strong>Mount-only effect events <small>(conceptual)</small></div><div class="stat"><strong id="changeCount">0</strong>On-change effect events</div><div class="stat"><strong id="renderCount">0</strong>Every-render events</div></div><div class="row" style="margin-top:15px"><button class="btn" id="increment">Change count</button><span>Current count: <b id="count">0</b></span></div><p class="muted">In React: <code>useEffect(fn, [])</code> runs on mount; <code>useEffect(fn, [count])</code> runs on mount and when count changes; omitting the array runs after every render.</p></div>
+<div class="panel"><h2>02 · Cleanup: timer lifecycle</h2><p class="muted">Start and stop a timer. Cleanup calls <code>clearInterval</code> so multiple timers do not accumulate.</p><div class="stat" id="timerValue">0</div><div class="row"><button class="btn" id="timerStart">Start timer</button><button class="btn secondary" id="timerStop">Stop / cleanup</button><button class="btn secondary" id="timerReset">Reset</button></div></div>
+<div class="panel"><h2>03 · Race conditions: with and without cancellation</h2><p class="muted">Simulate two requests with different response delays. The safe version ignores stale results.</p><div class="row"><button class="btn danger" id="unsafe">Run unsafe requests</button><button class="btn" id="safe">Run with cleanup</button></div><div id="raceResult" class="result">No requests started yet.</div></div>
+<div class="panel"><h2>04 · Derived state: calculate during render</h2><p class="muted">A value that can be calculated from existing inputs usually does not need its own effect or state.</p><div class="row"><input id="first" value="Saurav" placeholder="First name"><input id="last" value="Luitel" placeholder="Last name"></div><div class="result">Calculated full name: <b id="fullName">Saurav Luitel</b></div><p class="muted">This value is derived directly from the two inputs rather than copied into another state variable.</p></div>
+<div class="panel"><h2>05 · Infinite-loop trap</h2><p class="muted">An effect that updates a state value it depends on can repeatedly trigger itself. This safe demo uses a guarded, one-time update.</p><div class="result"><p>Guarded update count: <b id="guardCount">0</b></p><button class="btn" id="guard">Run guarded update</button><button class="btn secondary" id="guardReset">Reset demo</button><p id="guardMessage" class="muted">Press the button to perform one controlled update.</p></div></div>
+<script>
+let count=0,changeEvents=0,everyEvents=0,mountEvents=1;
+$("mountCount").textContent=mountEvents;
+$("increment").onclick=()=>{count++;changeEvents++;everyEvents++;$("count").textContent=count;$("changeCount").textContent=changeEvents;$("renderCount").textContent=everyEvents};
+let interval=null,ticks=0;
+$("timerStart").onclick=()=>{if(interval)return;interval=setInterval(()=>{$("timerValue").textContent=++ticks},1000)};
+function cleanupTimer(){if(interval){clearInterval(interval);interval=null}}
+$("timerStop").onclick=cleanupTimer;
+$("timerReset").onclick=()=>{cleanupTimer();ticks=0;$("timerValue").textContent=0};
+let currentRun=0;
+function fakeRequest(label,delay){return new Promise(resolve=>setTimeout(()=>resolve(label),delay))}
+$("unsafe").onclick=async()=>{$("raceResult").textContent="Unsafe requests started…";const a=fakeRequest("Older request finished last? (slow response)",1800);const b=fakeRequest("Newer request finished first (fast response)",400);const first=await b;$("raceResult").textContent=first;const later=await a;$("raceResult").textContent=later+" — stale result overwrote the newer result."};
+$("safe").onclick=async()=>{const run=++currentRun;$("raceResult").textContent="Safe requests started…";fakeRequest("Slow older response",1800).then(v=>{if(run===currentRun)$("raceResult").textContent=v});fakeRequest("Fast newer response",400).then(v=>{if(run===currentRun)$("raceResult").textContent=v+" — latest request wins."})};
+function fullName(){$("fullName").textContent=($("first").value+" "+$("last").value).trim()||"(empty)"}
+$("first").oninput=fullName;$("last").oninput=fullName;
+let guarded=0;
+$("guard").onclick=()=>{if(guarded===0){guarded=1;$("guardCount").textContent=guarded;$("guardMessage").textContent="One update completed. The guard prevents repeated updates."}else{$("guardMessage").textContent="Guard active: no additional update was made."}};
+$("guardReset").onclick=()=>{guarded=0;$("guardCount").textContent=0;$("guardMessage").textContent="Demo reset. Press the button to perform one controlled update."};
+window.addEventListener("pagehide",cleanupTimer);
+</script>
+</main><footer class="footer">Web Programming · Week 12.2 · React Effects &amp; useEffect</footer></body></html>
