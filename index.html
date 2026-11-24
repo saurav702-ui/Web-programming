@@ -3,462 +3,604 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Week 12 | React State Workshop</title>
-
-<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<meta name="theme-color" content="#ffca55">
+<title>Saurav's Coding Playground 🎨</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap');
+
 :root {
-    --green: #123f2d;
-    --green-light: #e6f4d0;
-    --lime: #d8f49b;
-    --cream: #fffaf1;
-    --white: #ffffff;
-    --text: #24352c;
-    --muted: #68766d;
-    --border: #e6e8df;
-    --shadow: 0 5px 20px rgba(20,50,35,0.07);
+  --yellow: #ffda66;
+  --pink: #ff82ac;
+  --purple: #a78bfa;
+  --blue: #7dd3fc;
+  --green: #a7e8a0;
+  --orange: #ffad76;
+  --ink: #282345;
+  --paper: #fffaf0;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    line-height: 1.6;
+  margin: 0;
+  background:
+    radial-gradient(circle at 10% 10%, #ffda6630 0 120px, transparent 121px),
+    radial-gradient(circle at 90% 30%, #ff82ac25 0 160px, transparent 161px),
+    radial-gradient(circle at 20% 80%, #a78bfa20 0 140px, transparent 141px),
+    var(--paper);
+  color: var(--ink);
+  font-family: 'Baloo 2', sans-serif;
+  overflow-x: hidden;
 }
 
+button, input { font: inherit; }
+
+.shell {
+  width: min(1080px, calc(100% - 40px));
+  margin: auto;
+}
+
+/* HEADER */
+
 header {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 18px 7%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding: 18px 0;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
 }
 
 .logo {
-    font-size: 23px;
-    font-weight: 800;
-    color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
 }
 
-.badge {
-    background: var(--green);
-    color: white;
-    padding: 7px 17px;
-    border-radius: 20px;
-    font-size: 13px;
+.logo-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 3px solid var(--ink);
+  border-radius: 15px;
+  background: var(--yellow);
+  box-shadow: 4px 4px 0 var(--ink);
+  transform: rotate(-5deg);
 }
 
-.container {
-    max-width: 1250px;
-    margin: auto;
-    padding: 35px 22px;
+.pill {
+  padding: 8px 15px;
+  border: 2px solid var(--ink);
+  border-radius: 30px;
+  background: white;
+  font-size: 12px;
+  font-weight: 800;
 }
+
+/* HERO */
 
 .hero {
-    background: linear-gradient(120deg, #e8f5d7, #fffaf1);
-    border-radius: 22px;
-    padding: 45px;
-    margin-bottom: 25px;
+  position: relative;
+  padding: 65px 0 42px;
+  text-align: center;
+  animation: pop-in .65s ease both;
 }
 
-.eyebrow {
-    color: var(--green);
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    margin-bottom: 12px;
+.hero-label {
+  display: inline-block;
+  padding: 7px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 30px;
+  background: var(--green);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+  transform: rotate(-2deg);
 }
 
-.hero h1 {
-    font-size: clamp(35px, 6vw, 62px);
-    line-height: 1.1;
-    color: var(--green);
-    margin-bottom: 15px;
+h1 {
+  margin: 22px 0 12px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(48px, 9vw, 94px);
+  font-weight: 700;
+  line-height: .98;
+  letter-spacing: -3px;
+}
+
+h1 .rainbow {
+  display: inline-block;
+  color: #ff6395;
+  text-shadow: 3px 3px 0 #ffda66;
+  transform: rotate(-2deg);
 }
 
 .hero p {
-    color: var(--muted);
-    font-size: 17px;
+  max-width: 510px;
+  margin: 20px auto;
+  color: #69617e;
+  font-size: 16px;
+  line-height: 1.7;
 }
 
+.hero-sticker {
+  position: absolute;
+  font-size: 43px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.sticker-left {
+  top: 100px;
+  left: 5%;
+  transform: rotate(-15deg);
+}
+
+.sticker-right {
+  top: 70px;
+  right: 6%;
+  animation-delay: -1s;
+}
+
+/* STUDENT CARD */
+
 .student-card {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 22px;
-    margin-bottom: 30px;
-    box-shadow: var(--shadow);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 760px;
+  margin: 25px auto 65px;
+  padding: 25px 30px;
+  border: 3px solid var(--ink);
+  border-radius: 25px;
+  background: var(--purple);
+  box-shadow: 7px 7px 0 var(--ink);
+  transform: rotate(-.5deg);
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
 .avatar {
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    background: var(--green-light);
-    color: var(--green);
-    display: grid;
-    place-items: center;
-    font-size: 25px;
-    font-weight: bold;
-    flex-shrink: 0;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 75px;
+  height: 75px;
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  background: var(--yellow);
+  font-size: 39px;
+  transform: rotate(-7deg);
 }
 
-.student-card h2 {
-    color: var(--green);
-    font-size: 22px;
+.student-label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-.student-card p {
-    color: var(--muted);
-    font-size: 14px;
+.student-name {
+  margin: 0;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 27px;
 }
+
+.student-details {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.student-badge {
+  padding: 10px 13px;
+  border: 2px solid var(--ink);
+  border-radius: 15px;
+  background: var(--yellow);
+  font-size: 12px;
+  font-weight: 800;
+  transform: rotate(4deg);
+}
+
+/* SECTION */
 
 .section-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 17px;
-    flex-wrap: wrap;
-    gap: 10px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 24px;
 }
 
 .section-heading h2 {
-    color: var(--green);
-    font-size: 27px;
+  margin: 0;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 35px;
 }
 
-.progress-card {
-    background: white;
-    padding: 18px;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    margin-bottom: 25px;
+.section-heading p {
+  margin: 3px 0 0;
+  color: #777087;
+  font-size: 13px;
 }
 
-.progress-track {
-    height: 11px;
-    background: #edf0e9;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 10px;
+.section-tag {
+  padding: 8px 13px;
+  border: 2px dashed var(--ink);
+  border-radius: 14px;
+  background: var(--orange);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
-.progress-fill {
-    height: 100%;
-    background: #8bc34a;
-    transition: width .3s;
+/* SEARCH */
+
+.controls {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
 }
 
-.workspace {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 20px;
-    align-items: start;
+.search-wrap { width: min(100%, 420px); }
+
+.search-wrap label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 800;
 }
 
-.sidebar {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 17px;
-    box-shadow: var(--shadow);
+.search-box { position: relative; }
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  width: 20px;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
-.sidebar h3 {
-    color: var(--green);
-    margin-bottom: 13px;
+.search-wrap input {
+  width: 100%;
+  height: 51px;
+  padding: 0 15px 0 45px;
+  border: 3px solid var(--ink);
+  border-radius: 15px;
+  outline: none;
+  background: white;
+  box-shadow: 4px 4px 0 var(--ink);
+  font-size: 13px;
+  transition: transform .2s, box-shadow .2s;
 }
 
-.exercise-nav {
-    display: grid;
-    gap: 8px;
+.search-wrap input:focus {
+  box-shadow: 6px 6px 0 var(--pink);
+  transform: translate(-2px, -2px);
 }
 
-.exercise-nav button {
-    text-align: left;
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-    padding: 12px;
-    border-radius: 9px;
+.result-count {
+  padding-bottom: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: right;
 }
 
-.exercise-nav button.active {
-    background: var(--green-light);
-    border-color: #a5cc75;
-    color: var(--green);
-    font-weight: bold;
+/* WEEKS */
+
+.week-list {
+  display: grid;
+  gap: 20px;
 }
 
-.exercise-nav button:hover {
-    background: var(--green-light);
+.week {
+  --card: var(--yellow);
+  overflow: hidden;
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  background: white;
+  box-shadow: 6px 6px 0 var(--ink);
+  transition: transform .2s, box-shadow .2s;
+  animation: pop-in .5s ease both;
 }
 
-.exercise-panel {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 17px;
-    padding: 27px;
-    box-shadow: var(--shadow);
-    min-height: 420px;
+.week:nth-child(2) { --card: var(--pink); animation-delay: .05s; }
+.week:nth-child(3) { --card: var(--blue); animation-delay: .1s; }
+.week:nth-child(4) { --card: var(--green); animation-delay: .15s; }
+.week:nth-child(5) { --card: var(--orange); animation-delay: .2s; }
+
+.week:hover {
+  transform: translate(-2px, -3px) rotate(-.2deg);
+  box-shadow: 9px 9px 0 var(--ink);
 }
 
-.exercise-panel h2 {
-    color: var(--green);
-    font-size: 27px;
-    margin-bottom: 8px;
+.week summary {
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr) auto 36px;
+  align-items: center;
+  gap: 17px;
+  min-height: 103px;
+  padding: 17px 22px;
+  background: var(--card);
+  cursor: pointer;
+  list-style: none;
 }
 
-.description {
-    color: var(--muted);
-    margin-bottom: 24px;
+.week summary::-webkit-details-marker { display: none; }
+
+.week summary:focus-visible,
+.task-link:focus-visible {
+  outline: 3px dashed var(--ink);
+  outline-offset: 4px;
 }
 
-.card {
-    background: #fbfcf8;
-    border: 1px solid var(--border);
-    border-radius: 13px;
-    padding: 18px;
-    margin-bottom: 14px;
+.week-number {
+  display: grid;
+  place-items: center;
+  width: 55px;
+  height: 55px;
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  background: white;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  transform: rotate(-5deg);
 }
 
-button {
-    cursor: pointer;
-    font: inherit;
-    border: none;
+.week-title {
+  display: block;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 25px;
+  font-weight: 700;
 }
 
-.btn {
-    background: var(--green);
-    color: white;
-    padding: 10px 17px;
-    border-radius: 9px;
-    margin: 4px;
-    font-weight: bold;
+.week-subtitle {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.btn:hover {
-    background: #246444;
+.week-count {
+  padding: 8px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 30px;
+  background: white;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
-.btn-light {
-    background: var(--green-light);
-    color: var(--green);
-    border: 1px solid #c9dfac;
+.chevron {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: white;
+  font-size: 18px;
+  transition: transform .25s;
 }
 
-.btn-danger {
-    background: #fce8e5;
-    color: #a33131;
-    border: 1px solid #f2c8c2;
+.chevron::before { content: "↓"; }
+
+details[open] .chevron {
+  transform: rotate(180deg);
 }
 
-.btn:disabled {
-    opacity: .45;
-    cursor: not-allowed;
+/* TASK CARDS */
+
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+  padding: 23px;
+  background: white;
 }
 
-input, textarea, select {
-    font: inherit;
-    padding: 11px;
-    border: 1px solid #d8ded4;
-    border-radius: 9px;
-    width: 100%;
-    margin: 7px 0 13px;
-    background: white;
-    color: var(--text);
+.task-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 62px;
+  padding: 12px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: #fffaf0;
+  box-shadow: 3px 3px 0 var(--ink);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s, background .2s;
 }
 
-input[type="checkbox"] {
-    width: auto;
-    margin-right: 9px;
+.task-link:nth-child(4n + 1) { background: #fff0b8; }
+.task-link:nth-child(4n + 2) { background: #ffe0eb; }
+.task-link:nth-child(4n + 3) { background: #e4e0ff; }
+.task-link:nth-child(4n + 4) { background: #dff7db; }
+
+.task-link::after {
+  content: "↗";
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: white;
+  font-size: 15px;
+  transition: transform .2s;
 }
 
-input[type="range"] {
-    padding: 0;
-    accent-color: var(--green);
+.task-link:hover {
+  transform: translate(-2px, -3px) rotate(-1deg);
+  box-shadow: 6px 6px 0 var(--ink);
 }
 
-.stat {
-    font-size: 38px;
-    font-weight: bold;
-    color: var(--green);
-    margin: 12px 0;
+.task-link:hover::after {
+  transform: rotate(45deg);
 }
 
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 13px;
+.task-link[hidden] { display: none; }
+
+/* EMPTY STATE */
+
+.empty-state {
+  display: none;
+  padding: 45px 20px;
+  border: 3px dashed var(--ink);
+  border-radius: 22px;
+  background: white;
+  text-align: center;
 }
 
-.product {
-    border: 1px solid var(--border);
-    background: white;
-    border-radius: 12px;
-    padding: 15px;
+.empty-state strong {
+  display: block;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 25px;
 }
 
-.product-icon {
-    font-size: 36px;
-    background: var(--green-light);
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.product h3 {
-    color: var(--green);
-    font-size: 16px;
-}
-
-.product p {
-    color: var(--muted);
-    margin: 7px 0;
-}
-
-.cart-row, .queue-row, .history-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-}
-
-.cart-row:last-child, .queue-row:last-child {
-    border-bottom: none;
-}
-
-.total {
-    color: var(--green);
-    font-size: 22px;
-    font-weight: bold;
-    margin-top: 15px;
-}
-
-.scoreboard {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.player {
-    text-align: center;
-    background: var(--green-light);
-    border-radius: 13px;
-    padding: 25px;
-}
-
-.player h3 {
-    color: var(--green);
-}
-
-.player .stat {
-    font-size: 48px;
-}
-
-.counter-history {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 12px;
-}
-
-.history-number {
-    background: var(--green-light);
-    color: var(--green);
-    padding: 8px 13px;
-    border-radius: 8px;
-    font-weight: bold;
-}
-
-.word-stats {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.word-stat {
-    background: var(--green-light);
-    padding: 17px;
-    border-radius: 12px;
-    flex: 1;
-    min-width: 120px;
-}
-
-.word-stat strong {
-    display: block;
-    color: var(--green);
-    font-size: 28px;
-}
-
-.tip-box {
-    background: #edf7df;
-    padding: 20px;
-    border-radius: 12px;
-    border-left: 5px solid #8bc34a;
-    margin: 15px 0;
-}
-
-.empty {
-    color: var(--muted);
-    padding: 15px 0;
-}
+/* FOOTER */
 
 footer {
-    text-align: center;
-    padding: 25px;
-    color: var(--muted);
-    font-size: 13px;
+  margin-top: 75px;
+  padding: 28px 0;
+  border-top: 3px dashed #ded6c8;
+  text-align: center;
 }
 
-@media(max-width:800px) {
-    .workspace {
-        grid-template-columns: 1fr;
-    }
-
-    .exercise-nav {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .hero {
-        padding: 28px;
-    }
+.footer-message {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 17px;
 }
 
-@media(max-width:480px) {
-    .student-card {
-        align-items: flex-start;
-    }
+.footer-sub {
+  margin-top: 5px;
+  color: #8c849b;
+  font-size: 11px;
+}
 
-    .avatar {
-        width: 55px;
-        height: 55px;
-    }
+/* FLOATING ANIMATIONS */
 
-    .scoreboard {
-        grid-template-columns: 1fr;
-    }
+@keyframes float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -12px; }
+}
 
-    .exercise-panel {
-        padding: 18px;
-    }
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 700px) {
+  .shell { width: calc(100% - 30px); }
+
+  .hero { padding: 48px 0 30px; }
+
+  h1 {
+    letter-spacing: -2px;
+    font-size: clamp(43px, 11vw, 68px);
+  }
+
+  .hero p { font-size: 14px; }
+
+  .hero-sticker { font-size: 29px; }
+  .sticker-left { top: 10px; left: 1%; }
+  .sticker-right { top: 10px; right: 2%; }
+
+  .student-card {
+    padding: 19px;
+    margin-bottom: 50px;
+  }
+
+  .avatar {
+    width: 57px;
+    height: 57px;
+    font-size: 29px;
+  }
+
+  .student-name { font-size: 22px; }
+  .student-details { font-size: 10px; }
+  .student-badge { display: none; }
+
+  .section-heading h2 { font-size: 29px; }
+
+  .week summary {
+    grid-template-columns: 45px minmax(0, 1fr) 31px;
+    gap: 12px;
+    min-height: 85px;
+    padding: 14px;
+  }
+
+  .week-number {
+    width: 43px;
+    height: 43px;
+    border-radius: 14px;
+    font-size: 15px;
+  }
+
+  .week-title { font-size: 21px; }
+  .week-subtitle { font-size: 10px; }
+  .week-count { display: none; }
+
+  .task-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .task-link {
+    min-height: 53px;
+    padding: 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .logo { font-size: 15px; }
+  .logo-icon { width: 37px; height: 37px; }
+  .pill { padding: 7px 9px; font-size: 10px; }
+
+  .controls { align-items: end; gap: 10px; }
+  .result-count { max-width: 90px; font-size: 10px; }
+  .section-tag { font-size: 10px; padding: 7px 9px; }
+  .task-grid { gap: 8px; padding: 12px; }
+  .task-link { padding: 9px; font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
 </style>
 </head>
@@ -466,764 +608,404 @@ footer {
 <body>
 
 <header>
-    <div class="logo">〈 / 〉 REACT WORKSHOP</div>
-    <div class="badge">WEEK 12</div>
+  <div class="shell nav">
+    <div class="logo">
+      <span class="logo-icon">👨‍💻</span>
+      <span>Saurav.dev</span>
+    </div>
+    <span class="pill">🎨 MY CODING WORLD</span>
+  </div>
 </header>
 
-<div id="root"></div>
+<main class="shell">
+
+  <section class="hero">
+    <span class="hero-sticker sticker-left">🚀</span>
+    <span class="hero-sticker sticker-right">✨</span>
+
+    <span class="hero-label">👋 HEY THERE, INTERNET!</span>
+
+    <h1>
+      Welcome to my<br>
+      <span class="rainbow">coding playground!</span>
+    </h1>
+
+    <p>
+      A little HTML, a little CSS, a lot of debugging,
+      and occasionally wondering why nothing works. 🤡
+    </p>
+  </section>
+
+  <section class="student-card" aria-label="Student information">
+    <div class="student-info">
+      <div class="avatar">😎</div>
+      <div>
+        <p class="student-label">The human behind the code</p>
+        <h2 class="student-name">Saurav luitel</h2>
+        <p class="student-details">
+          💻 Computer Engineering · Gachon University · 3rd Semester
+        </p>
+      </div>
+    </div>
+    <span class="student-badge">STATUS: STILL DEBUGGING 🐛</span>
+  </section>
+
+  <section aria-labelledby="archive-title">
+
+    <div class="section-heading">
+      <div>
+        <h2 id="archive-title">🎮 Pick your level</h2>
+        <p>Choose a week and explore the side quests!</p>
+      </div>
+      <span class="section-tag">LEVEL SELECT</span>
+    </div>
+
+    <div class="controls">
+      <div class="search-wrap">
+        <label for="project-search">🔎 Find your mission</label>
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" aria-hidden="true">
+            <circle cx="10.8" cy="10.8" r="6.8"></circle>
+            <path d="m16 16 4.5 4.5"></path>
+          </svg>
+          <input
+            id="project-search"
+            type="search"
+            placeholder="Try 'Week 1' or 'Task 3'..."
+            autocomplete="off"
+          >
+        </div>
+      </div>
+      <div class="result-count" id="result-count" aria-live="polite"></div>
+    </div>
+
+    <section class="week-list" id="week-list" aria-label="Course projects">
+
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">01</span>
+          <span>
+            <span class="week-title">Week 1 🌱</span>
+            <span class="week-subtitle">The beginning of the adventure</span>
+          </span>
+          <span class="week-count">8 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="Week-1/task1.html">Task 1</a>
+          <a class="task-link" href="Week-1/task2.html">Task 2</a>
+          <a class="task-link" href="Week-1/task3.html">Task 3</a>
+          <a class="task-link" href="Week-1/task4.html">Task 4</a>
+          <a class="task-link" href="Week-1/task5.html">Task 5</a>
+          <a class="task-link" href="Week-1/task6.html">Task 6</a>
+          <a class="task-link" href="Week-1/task7.html">Task 7</a>
+          <a class="task-link" href="Week-1/task8.html">Task 8</a>
+        </div>
+      </details>
+
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">02A</span>
+          <span>
+            <span class="week-title">Week 2 🎨</span>
+            <span class="week-subtitle">Making the web look less ugly</span>
+          </span>
+          <span class="week-count">8 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="Week-2/task1.html">Task 1</a>
+          <a class="task-link" href="Week-2/task2.html">Task 2</a>
+          <a class="task-link" href="Week-2/task3.html">Task 3</a>
+          <a class="task-link" href="Week-2/task4.html">Task 4</a>
+          <a class="task-link" href="Week-2/task5.html">Task 5</a>
+          <a class="task-link" href="Week-2/task6.html">Task 6</a>
+          <a class="task-link" href="Week-2/task7.html">Task 7</a>
+          <a class="task-link" href="Week-2/task8.html">Task 8</a>
+        </div>
+      </details>
+
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">02B</span>
+          <span>
+            <span class="week-title">Week 3 ⚡</span>
+            <span class="week-subtitle">More code, fewer tears</span>
+          </span>
+          <span class="week-count">8 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 3/h1.html">Task 1</a>
+          <a class="task-link" href="week 3/h2.html">Task 2</a>
+          <a class="task-link" href="week 3/h3.html">Task 3</a>
+          <a class="task-link" href="week 3/h4.html">Task 4</a>
+          <a class="task-link" href="week 3/h5.html">Task 5</a>
+          <a class="task-link" href="week 3/h6.html">Task 6</a>
+          <a class="task-link" href="week 3/h7.html">Task 7</a>
+          <a class="task-link" href="week 3/tassssk.html">Task 8 </a>
+        </div>
+      </details>
+
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">03A</span>
+          <span>
+            <span class="week-title">Week 4 🧪</span>
+            <span class="week-subtitle">Things are getting interactive!</span>
+          </span>
+          <span class="week-count">4 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 4/button.html">Task 1</a>
+          <a class="task-link" href="week 4/darkmode.html">Task 2</a>
+          <a class="task-link" href="week 4/search.html">Task 3</a>
+          <a class="task-link" href="week 4/todo.html">Task 4</a>
+        </div>
+      </details>
+
+        <details class="week" data-week>
+        <summary>
+          <span class="week-number">04C</span>
+          <span>
+            <span class="week-title">Week 5 🎶</span>
+            <span class="week-subtitle">Nothing</span>
+          </span>
+          <span class="week-count">2 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 5/task.html">Task 1</a>
+          <a class="task-link" href="week 5/task2.html">Task 2</a>
+        </div>
+      </details>
+
+      
+        <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">Week 6😴 </span>
+            <span class="week-subtitle">tralelala</span>
+          </span>
+          <span class="week-count">6 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 6/country.html">Task 1</a>
+          <a class="task-link" href="week 6/jokes.html">Task 2</a>
+          <a class="task-link" href="week 6/meteo.html">Task 3</a>
+          <a class="task-link" href="week 6/placeholder.html">Task 4</a>
+          <a class="task-link" href="week 6/poke.html">Task 5</a>
+          <a class="task-link" href="week 6/random.html">Task 6</a>
+        </div>
+      </details>
+
+       <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">Week 7😭 </span>
+            <span class="week-subtitle">lala</span>
+          </span>
+          <span class="week-count">7 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 7/search.html">Task 1</a>
+          <a class="task-link" href="week 7/step1.html">Task 2</a>
+          <a class="task-link" href="week 7/step2.html">Task 3</a>
+          <a class="task-link" href="week 7/step3.html">Task 4</a>
+          <a class="task-link" href="week 7/step4.html">Task 5</a>
+          <a class="task-link" href="week 7/step5.html">Task 6</a>
+          <a class="task-link" href="week 7/step6.html">Task 7</a>
+        </div>
+      </details>
+
+       <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">Week 8 </span>
+            <span class="week-subtitle">lolo</span>
+          </span>
+          <span class="week-count">5 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 8/addccs.html">Task 1</a>
+          <a class="task-link" href="week 8/attri.html">Task 2</a>
+          <a class="task-link" href="week 8/form.html">Task 3</a>
+          <a class="task-link" href="week 8/streg.html">Task 4</a>
+          <a class="task-link" href="week 8/upgradedregistration.html">Task 5</a>
+        </div>
+      </details>
+
+       <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">Week 9_1 </span>
+            <span class="week-subtitle">popo</span>
+          </span>
+          <span class="week-count">7 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 9/intialpage.html">Initial Page</a>
+          <a class="task-link" href="week 9/pageafterlighthousefix.html">After fixing Light House</a>
+          <a class="task-link" href="week 9/intial.png">Initial Screenshot</a>
+          <a class="task-link" href="week 9/final.png">Final Screenshot</a>
+           <a class="task-link" href="week 9/altext.html">Alt Text</a>
+          <a class="task-link" href="week 9/divbutton.html">div button</a>
+           <a class="task-link" href="week 9/accessibility-report.html">Accessibility report(skip to the main part)</a>
+        </div>
+     </details>
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">Week 9_2 </span>
+            <span class="week-subtitle">topo</span>
+          </span>
+          <span class="week-count"> missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week9_2/report.html">Report page</a>
+        </div>
+      </details>
+       </details>
+     
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">PROJECT </span>
+            <span class="week-subtitle">hell</span>
+          </span>
+          <span class="week-count"> </span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="Project/BiHE_COM_Website_Proposal.pptx">Proposal For Website</a>
+           <a class="task-link" href="https://github.com/saurav702-ui/Web-programming/blob/main/Project/script-source.js">Javascript Sourcecode</a>
+           <a class="task-link" href="https://github.com/saurav702-ui/Web-programming/blob/main/Project/styles.css">CSS Sourcecode</a>
+          <a class="task-link" href="Project/BiHE_index.html">Bihe.com</a>
+        </div>
+      </details>
+
+       
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">11_2</span>
+          <span>
+            <span class="week-title">Week11_2</span>
+            <span class="week-subtitle">hell</span>
+          </span>
+          <span class="week-count"> </span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="https://saurav702-ui.github.io/Week11_2/">React Components</a>
+        </div>
+      </details>
+      
+       <details class="week" data-week>
+        <summary>
+          <span class="week-number">12_1</span>
+          <span>
+            <span class="week-title">Week12_1</span>
+            <span class="week-subtitle">hell</span>
+          </span>
+          <span class="week-count"> </span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week12_1/week12-index.html">12_1</a>
+        </div>
+      </details>
+
+
+
+
+
+    </section>
+
+    <div class="empty-state" id="empty-state">
+      <strong>🕵️ No missions found!</strong>
+      Even the internet detectives are confused.
+      Try another search.
+    </div>
+
+  </section>
+</main>
 
 <footer>
-    Web Programming · Week 12 React State Workshop
-    <br>
-    Gachon University
+  <div class="shell">
+    <div class="footer-message">
+      Made with 💖, ☕, and questionable amounts of debugging.
+    </div>
+    <div class="footer-sub">
+      Saurav's Coding Playground · Web Programming · 2026
+    </div>
+  </div>
 </footer>
 
-<script type="text/babel">
+<script>
+  const searchInput = document.querySelector("#project-search");
+  const weeks = [...document.querySelectorAll("[data-week]")];
+  const resultCount = document.querySelector("#result-count");
+  const emptyState = document.querySelector("#empty-state");
 
-const {useState} = React;
+  function filterProjects() {
+    const query = searchInput.value.trim().toLowerCase();
 
-const products = [
-    {id:1, name:"Wireless Headphones", price:449000, icon:"🎧", category:"Audio"},
-    {id:2, name:"Gaming Laptop", price:2390000, icon:"💻", category:"Computers"},
-    {id:3, name:"iPad Pro", price:1990000, icon:"📱", category:"Mobile"},
-    {id:4, name:"Smartphone", price:1990000, icon:"📲", category:"Mobile"},
-    {id:5, name:"MacBook Pro", price:5490000, icon:"🖥️", category:"Computers"}
-];
+    let visibleWeeks = 0;
+    let visibleProjects = 0;
 
-const currency = n =>
-    new Intl.NumberFormat("en-KR", {
-        style:"currency",
-        currency:"KRW",
-        maximumFractionDigits:0
-    }).format(n);
+    for (const week of weeks) {
+      const title = week.querySelector(".week-title")
+        .textContent.toLowerCase();
 
+      const weekMatches = title.includes(query);
+      let projectCount = 0;
 
-/* EXERCISE 1: SHOPPING CART */
+      for (const link of week.querySelectorAll(".task-link")) {
+        const matches =
+          !query ||
+          weekMatches ||
+          link.textContent.toLowerCase().includes(query);
 
-function ShoppingCart() {
-    const [cart,setCart] = useState([]);
-    const [budget,setBudget] = useState(4000000);
-    const [category,setCategory] = useState("All");
+        link.hidden = !matches;
 
-    function addProduct(product) {
-        setCart(previous => {
-            const found = previous.find(item => item.id === product.id);
+        if (matches) projectCount++;
+      }
 
-            if(found) {
-                return previous.map(item =>
-                    item.id === product.id
-                    ? {...item, quantity:item.quantity+1}
-                    : item
-                );
-            }
+      week.hidden = projectCount === 0;
 
-            return [...previous,{...product,quantity:1}];
-        });
+      if (projectCount > 0) {
+        visibleWeeks++;
+        visibleProjects += projectCount;
+
+        if (query) week.open = true;
+      } else if (query) {
+        week.open = false;
+      }
     }
 
-    function changeQuantity(id,amount) {
-        setCart(previous =>
-            previous
-            .map(item =>
-                item.id === id
-                ? {...item,quantity:item.quantity+amount}
-                : item
-            )
-            .filter(item => item.quantity > 0)
-        );
-    }
-
-    function removeProduct(id) {
-        setCart(previous =>
-            previous.filter(item => item.id !== id)
-        );
-    }
-
-    const total = cart.reduce(
-        (sum,item) => sum + item.price*item.quantity,0
-    );
-
-    const count = cart.reduce(
-        (sum,item) => sum + item.quantity,0
-    );
-
-    const visibleProducts = category === "All"
-        ? products
-        : products.filter(p => p.category === category);
-
-    return (
-        <div>
-            <div className="description">
-                Add technology products to your cart, change quantities
-                and manage your shopping budget.
-            </div>
-
-            <div className="card">
-                <h3>Product Categories</h3>
-
-                {["All","Audio","Computers","Mobile"].map(c => (
-                    <button
-                        key={c}
-                        className={"btn "+(category===c?"":"btn-light")}
-                        onClick={() => setCategory(c)}
-                    >
-                        {c}
-                    </button>
-                ))}
-            </div>
-
-            <h3 style={{color:"#123f2d",marginBottom:12}}>
-                Available Products
-            </h3>
-
-            <div className="product-grid">
-                {visibleProducts.map(product => (
-                    <div className="product" key={product.id}>
-                        <div className="product-icon">
-                            {product.icon}
-                        </div>
-
-                        <h3>{product.name}</h3>
-                        <p>{currency(product.price)}</p>
-
-                        <button
-                            className="btn"
-                            onClick={() => addProduct(product)}
-                        >
-                            Add to Cart
-                        </button>
-                    </div>
-                ))}
-            </div>
-
-            <div className="card" style={{marginTop:25}}>
-                <h3>Shopping Budget</h3>
-
-                <p>Budget: {currency(budget)}</p>
-
-                <input
-                    type="range"
-                    min="500000"
-                    max="12000000"
-                    step="100000"
-                    value={budget}
-                    onChange={e => setBudget(Number(e.target.value))}
-                />
-
-                <h3 style={{marginTop:15,color:"#123f2d"}}>
-                    Your Shopping Cart ({count} items)
-                </h3>
-
-                {cart.length === 0 && (
-                    <p className="empty">Your cart is empty. Add a product!</p>
-                )}
-
-                {cart.map(item => (
-                    <div className="cart-row" key={item.id}>
-                        <div>
-                            <strong>{item.name}</strong>
-                            <br/>
-                            <small>{currency(item.price)}</small>
-                        </div>
-
-                        <div>
-                            <button className="btn-light btn"
-                                onClick={() => changeQuantity(item.id,-1)}>
-                                −
-                            </button>
-
-                            <strong>{item.quantity}</strong>
-
-                            <button className="btn-light btn"
-                                onClick={() => changeQuantity(item.id,1)}>
-                                +
-                            </button>
-
-                            <button className="btn-danger btn"
-                                onClick={() => removeProduct(item.id)}>
-                                Remove
-                            </button>
-                        </div>
-                    </div>
-                ))}
-
-                <div className="total">
-                    Total: {currency(total)}
-                </div>
-
-                <p style={{
-                    color:total>budget?"#c0392b":"#246444",
-                    fontWeight:"bold"
-                }}>
-                    {total>budget
-                        ? "You are over budget by "+currency(total-budget)
-                        : "Remaining budget: "+currency(budget-total)}
-                </p>
-
-                <button
-                    className="btn btn-danger"
-                    onClick={() => setCart([])}
-                    disabled={cart.length===0}
-                >
-                    Clear Cart
-                </button>
-            </div>
-        </div>
-    );
-}
-
-
-/* EXERCISE 2: COUNTER WITH HISTORY */
-
-function CounterHistory() {
-    const [count,setCount] = useState(0);
-    const [history,setHistory] = useState([0]);
-
-    function update(value) {
-        setCount(value);
-        setHistory(previous => [...previous,value].slice(-5));
-    }
-
-    function undo() {
-        if(history.length < 2) return;
-
-        const newHistory = history.slice(0,-1);
-
-        setHistory(newHistory);
-        setCount(newHistory[newHistory.length-1]);
-    }
-
-    return (
-        <div>
-            <div className="description">
-                Increase, decrease, reset and undo your previous counter values.
-            </div>
-
-            <div className="card" style={{textAlign:"center"}}>
-                <h3>Current Counter</h3>
-
-                <div className="stat">{count}</div>
-
-                <button className="btn"
-                    onClick={() => update(count+1)}>
-                    + Increase
-                </button>
-
-                <button className="btn"
-                    onClick={() => update(count-1)}>
-                    − Decrease
-                </button>
-
-                <button className="btn btn-light"
-                    onClick={() => update(0)}>
-                    Reset
-                </button>
-
-                <button className="btn btn-danger"
-                    onClick={undo}
-                    disabled={history.length<2}>
-                    Undo
-                </button>
-            </div>
-
-            <div className="card">
-                <h3>Recent Counter History</h3>
-
-                <div className="counter-history">
-                    {history.map((value,index) => (
-                        <span className="history-number" key={index}>
-                            {value}
-                        </span>
-                    ))}
-                </div>
-
-                <p className="description" style={{marginTop:10}}>
-                    The last five counter values are stored here.
-                </p>
-            </div>
-        </div>
-    );
-}
-
-
-/* EXERCISE 3: TWO-PLAYER SCOREBOARD */
-
-function Scoreboard() {
-    const [player1,setPlayer1] = useState(0);
-    const [player2,setPlayer2] = useState(0);
-
-    return (
-        <div>
-            <div className="description">
-                Manage two players' scores independently.
-            </div>
-
-            <div className="scoreboard">
-                <div className="player">
-                    <h3>PLAYER 1</h3>
-                    <div className="stat">{player1}</div>
-
-                    <button className="btn"
-                        onClick={() => setPlayer1(p=>p+1)}>
-                        +1 Point
-                    </button>
-
-                    <button className="btn btn-light"
-                        onClick={() => setPlayer1(p=>Math.max(0,p-1))}>
-                        −1 Point
-                    </button>
-                </div>
-
-                <div className="player">
-                    <h3>PLAYER 2</h3>
-                    <div className="stat">{player2}</div>
-
-                    <button className="btn"
-                        onClick={() => setPlayer2(p=>p+1)}>
-                        +1 Point
-                    </button>
-
-                    <button className="btn btn-light"
-                        onClick={() => setPlayer2(p=>Math.max(0,p-1))}>
-                        −1 Point
-                    </button>
-                </div>
-            </div>
-
-            <div className="card" style={{textAlign:"center",marginTop:20}}>
-                <h3>Match Result</h3>
-
-                <div className="stat">
-                    {player1===player2
-                        ? "DRAW"
-                        : player1>player2?"PLAYER 1 WINS":"PLAYER 2 WINS"}
-                </div>
-
-                <button className="btn btn-danger"
-                    onClick={()=>{
-                        setPlayer1(0);
-                        setPlayer2(0);
-                    }}>
-                    Reset Match
-                </button>
-            </div>
-        </div>
-    );
-}
-
-
-/* EXERCISE 4: LIVE WORD COUNT */
-
-function WordCount() {
-    const [text,setText] = useState("");
-
-    const words = text.trim()
-        ? text.trim().split(/\s+/).length
-        : 0;
-
-    const characters = text.length;
-    const sentences = text.trim()
-        ? text.split(/[.!?]+/).filter(s=>s.trim()).length
-        : 0;
-
-    return (
-        <div>
-            <div className="description">
-                Type something below and watch the word and character
-                counts update automatically.
-            </div>
-
-            <div className="card">
-                <h3>Your Writing Area</h3>
-
-                <textarea
-                    rows="9"
-                    placeholder="Start typing your thoughts here..."
-                    value={text}
-                    onChange={e=>setText(e.target.value)}
-                />
-
-                <button className="btn btn-danger"
-                    onClick={()=>setText("")}>
-                    Clear Text
-                </button>
-            </div>
-
-            <div className="word-stats">
-                <div className="word-stat">
-                    <strong>{words}</strong>
-                    Words
-                </div>
-
-                <div className="word-stat">
-                    <strong>{characters}</strong>
-                    Characters
-                </div>
-
-                <div className="word-stat">
-                    <strong>{sentences}</strong>
-                    Sentences
-                </div>
-            </div>
-        </div>
-    );
-}
-
-
-/* EXERCISE 5: QUICK REACT TIP */
-
-function QuickTip() {
-    const tips = [
-        {
-            title:"What is useState?",
-            text:"useState is a React Hook that allows a component to remember information and update the screen when that information changes."
-        },
-        {
-            title:"What is an Event Handler?",
-            text:"An event handler is a function that runs when a user interacts with an element, such as clicking a button or typing in an input."
-        },
-        {
-            title:"What is a Component?",
-            text:"A component is a reusable part of a React user interface. Components help organize an application into smaller pieces."
-        },
-        {
-            title:"What is Props?",
-            text:"Props allow one component to pass information to another component. They are read-only values."
-        },
-        {
-            title:"Why use map()?",
-            text:"The map() method helps React display lists of elements by transforming each item in an array into a component or element."
-        }
-    ];
-
-    const [visible,setVisible] = useState(false);
-    const [index,setIndex] = useState(0);
-
-    function nextTip() {
-        setIndex(previous => (previous+1)%tips.length);
-    }
-
-    function previousTip() {
-        setIndex(previous => (previous-1+tips.length)%tips.length);
-    }
-
-    return (
-        <div>
-            <div className="description">
-                Learn useful React concepts through interactive tips.
-                Show or hide the explanation and move between tips.
-            </div>
-
-            <div className="card">
-                <h3>React Learning Center</h3>
-
-                <p>Tip {index+1} of {tips.length}</p>
-
-                <div className="tip-box">
-                    <h3>{tips[index].title}</h3>
-
-                    {visible
-                        ? <p style={{marginTop:10}}>{tips[index].text}</p>
-                        : <p style={{marginTop:10}}>The explanation is hidden. Click below to reveal it.</p>
-                    }
-                </div>
-
-                <button className="btn"
-                    onClick={()=>setVisible(v=>!v)}>
-                    {visible?"Hide Tip":"Show Tip"}
-                </button>
-
-                <button className="btn btn-light"
-                    onClick={previousTip}>
-                    ← Previous
-                </button>
-
-                <button className="btn btn-light"
-                    onClick={nextTip}>
-                    Next →
-                </button>
-            </div>
-        </div>
-    );
-}
-
-
-/* EXERCISE 6: STUDY QUEUE */
-
-function StudyQueue() {
-    const [task,setTask] = useState("");
-    const [tasks,setTasks] = useState([]);
-
-    function addTask(e) {
-        e.preventDefault();
-
-        if(!task.trim()) return;
-
-        setTasks(previous => [
-            ...previous,
-            {
-                id:Date.now()+Math.random(),
-                title:task.trim(),
-                completed:false
-            }
-        ]);
-
-        setTask("");
-    }
-
-    function toggleTask(id) {
-        setTasks(previous =>
-            previous.map(item =>
-                item.id===id
-                    ? {...item,completed:!item.completed}
-                    : item
-            )
-        );
-    }
-
-    function removeTask(id) {
-        setTasks(previous =>
-            previous.filter(item=>item.id!==id)
-        );
-    }
-
-    const completed = tasks.filter(t=>t.completed).length;
-
-    return (
-        <div>
-            <div className="description">
-                Create a study queue, complete tasks and remove tasks
-                when you finish them.
-            </div>
-
-            <div className="card">
-                <h3>Add a Study Task</h3>
-
-                <form onSubmit={addTask}>
-                    <input
-                        type="text"
-                        placeholder="Example: Study React useState"
-                        value={task}
-                        onChange={e=>setTask(e.target.value)}
-                    />
-
-                    <button className="btn" type="submit">
-                        + Add Task
-                    </button>
-                </form>
-            </div>
-
-            <div className="progress-card">
-                <h3>Study Progress</h3>
-
-                <p>{completed} of {tasks.length} tasks completed</p>
-
-                <div className="progress-track">
-                    <div
-                        className="progress-fill"
-                        style={{
-                            width:tasks.length
-                                ? (completed/tasks.length*100)+"%"
-                                : "0%"
-                        }}
-                    />
-                </div>
-            </div>
-
-            <div className="card">
-                <h3>Your Study Queue</h3>
-
-                {tasks.length===0 && (
-                    <p className="empty">
-                        No tasks yet. Add your first study task!
-                    </p>
-                )}
-
-                {tasks.map(item=>(
-                    <div className="queue-row" key={item.id}>
-                        <label style={{
-                            textDecoration:item.completed?"line-through":"none",
-                            color:item.completed?"#89958d":"#24352c"
-                        }}>
-                            <input
-                                type="checkbox"
-                                checked={item.completed}
-                                onChange={()=>toggleTask(item.id)}
-                            />
-                            {item.title}
-                        </label>
-
-                        <button className="btn btn-danger"
-                            onClick={()=>removeTask(item.id)}>
-                            Remove
-                        </button>
-                    </div>
-                ))}
-
-                <button className="btn btn-light"
-                    onClick={()=>setTasks(previous=>previous.filter(t=>!t.completed))}
-                    disabled={!completed}>
-                    Clear Completed Tasks
-                </button>
-            </div>
-        </div>
-    );
-}
-
-
-/* MAIN APPLICATION */
-
-function App() {
-
-    const exercises = [
-        {title:"Shopping Cart",component:<ShoppingCart/>,icon:"🛒"},
-        {title:"Counter with History",component:<CounterHistory/>,icon:"🔢"},
-        {title:"Two-Player Scoreboard",component:<Scoreboard/>,icon:"🏆"},
-        {title:"Live Word Count",component:<WordCount/>,icon:"✍️"},
-        {title:"Quick React Tip",component:<QuickTip/>,icon:"💡"},
-        {title:"Study Queue",component:<StudyQueue/>,icon:"📚"}
-    ];
-
-    const [active,setActive] = useState(0);
-    const [completed,setCompleted] = useState([]);
-
-    function markCompleted() {
-        setCompleted(previous =>
-            previous.includes(active)
-                ? previous.filter(i=>i!==active)
-                : [...previous,active]
-        );
-    }
-
-    return (
-        <div className="container">
-
-            <section className="hero">
-                <div className="eyebrow">
-                    WEB PROGRAMMING · WEEK 12
-                </div>
-
-                <h1>
-                    Build with React.<br/>
-                    Explore State.
-                </h1>
-
-                <p>
-                    Learn React state through six practical,
-                    interactive exercises.
-                </p>
-            </section>
-
-            <section className="student-card">
-                <div className="avatar">SL</div>
-
-                <div>
-                    <h2>Saurav Luitel</h2>
-                    <p>Student ID: 202537255</p>
-                    <p>Computer Engineering</p>
-                    <p>Gachon University</p>
-                </div>
-            </section>
-
-            <div className="section-heading">
-                <h2>Your Learning Progress</h2>
-                <strong>{completed.length}/6 completed</strong>
-            </div>
-
-            <div className="progress-card">
-                <div className="progress-track">
-                    <div
-                        className="progress-fill"
-                        style={{width:(completed.length/6*100)+"%"}}
-                    />
-                </div>
-            </div>
-
-            <div className="section-heading">
-                <h2>React State Exercises</h2>
-                <span className="badge">6 Exercises</span>
-            </div>
-
-            <div className="workspace">
-
-                <aside className="sidebar">
-                    <h3>Exercise Menu</h3>
-
-                    <div className="exercise-nav">
-                        {exercises.map((exercise,index)=>(
-                            <button
-                                key={index}
-                                className={active===index?"active":""}
-                                onClick={()=>setActive(index)}
-                            >
-                                {exercise.icon} {index+1}. {exercise.title}
-                                {completed.includes(index)?" ✓":""}
-                            </button>
-                        ))}
-                    </div>
-                </aside>
-
-                <main className="exercise-panel">
-                    <div className="eyebrow">
-                        EXERCISE {active+1} OF 6
-                    </div>
-
-                    <h2>
-                        {exercises[active].icon} {exercises[active].title}
-                    </h2>
-
-                    <div style={{marginTop:20}}>
-                        {exercises[active].component}
-                    </div>
-
-                    <hr style={{
-                        border:"none",
-                        borderTop:"1px solid #e6e8df",
-                        margin:"25px 0"
-                    }}/>
-
-                    <div style={{
-                        display:"flex",
-                        justifyContent:"space-between",
-                        gap:10,
-                        flexWrap:"wrap"
-                    }}>
-                        <button
-                            className="btn btn-light"
-                            onClick={()=>setActive(a=>Math.max(0,a-1))}
-                            disabled={active===0}
-                        >
-                            ← Previous
-                        </button>
-
-                        <button
-                            className="btn"
-                            onClick={markCompleted}
-                        >
-                            {completed.includes(active)
-                                ?"✓ Completed"
-                                :"Mark as Completed"}
-                        </button>
-
-                        <button
-                            className="btn btn-light"
-                            onClick={()=>setActive(a=>Math.min(5,a+1))}
-                            disabled={active===5}
-                        >
-                            Next →
-                        </button>
-                    </div>
-                </main>
-
-            </div>
-        </div>
-    );
-}
-
-ReactDOM.createRoot(
-    document.getElementById("root")
-).render(<App/>);
-
+    emptyState.style.display =
+      visibleProjects ? "none" : "block";
+
+    resultCount.textContent =
+      `${visibleProjects} missions · ${visibleWeeks} levels`;
+  }
+
+  searchInput.addEventListener("input", filterProjects);
+  filterProjects();
 </script>
 
 </body>
