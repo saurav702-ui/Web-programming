@@ -1,12 +1,1025 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Week 12.2: React Effects & useEffect</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="topbar"><a class="brand" href="index.html">〈 / 〉 REACT WORKSHOP</a><span class="pill">WEEK 12.2</span></header><main class="wrap"><section class="hero"><div class="kicker">Web Programming · Friday Lab</div><h1>Week 12.2: React Effects & useEffect</h1><p>Running code when things change · Fetching, cleanup, dependency arrays and lifecycle.</p></section>
-<div class="student"><div class="avatar">SL</div><div><h3>Saurav Luitel</h3><p>Student ID: 202537255 · Computer Engineering</p><p>Gachon University</p></div></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffca55">
+<title>Saurav's Coding Playground 🎨</title>
 
-<div class="panel"><h2>React Effects &amp; useEffect</h2><p class="muted">Explore effects, asynchronous requests, cleanup functions, dependency arrays and component lifecycle through five practical activities.</p><div class="statgrid"><div class="stat"><strong>05</strong>Activities</div><div class="stat"><strong>useEffect</strong>Core Hook</div><div class="stat"><strong>API</strong>Practice</div></div></div>
-<div class="grid">
-<article class="tile"><div class="num">TASK 01</div><h2>🌦️ Weather Dashboard</h2><p>Search for a city, retrieve current conditions and a seven-day forecast from the Open-Meteo API. Includes request cancellation and optional location detection.</p><a href="task1.html">Open exercise →</a></article>
-<article class="tile"><div class="num">TASK 02</div><h2>🐙 GitHub User Lookup</h2><p>Search GitHub usernames, display profile details and repositories, handle loading/errors and cancel outdated requests.</p><a href="task2.html">Open exercise →</a></article>
-<article class="tile"><div class="num">TASK 03</div><h2>🧪 Study Guide Practice</h2><p>Three hands-on exercises: synchronize the document title, fetch a JSONPlaceholder user and build a stopwatch with interval cleanup.</p><a href="task3.html">Open exercise →</a></article>
-<article class="tile"><div class="num">TASK 04</div><h2>🔬 Effects Lifecycle Lab</h2><p>Compare dependency patterns, inspect cleanup, simulate race conditions and understand derived state and infinite-loop traps.</p><a href="task4.html">Open exercise →</a></article>
-<article class="tile"><div class="num">TASK 05</div><h2>📝 Friday Sprint Quiz</h2><p>Test your understanding with a 12-question quiz and eight short concept checks about React effects.</p><a href="task5.html">Open exercise →</a></article>
-</div>
-</main><footer class="footer">Web Programming · Week 12.2 · React Effects &amp; useEffect</footer></body></html>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap');
+
+:root {
+  --yellow: #ffda66;
+  --pink: #ff82ac;
+  --purple: #a78bfa;
+  --blue: #7dd3fc;
+  --green: #a7e8a0;
+  --orange: #ffad76;
+  --ink: #282345;
+  --paper: #fffaf0;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 10% 10%, #ffda6630 0 120px, transparent 121px),
+    radial-gradient(circle at 90% 30%, #ff82ac25 0 160px, transparent 161px),
+    radial-gradient(circle at 20% 80%, #a78bfa20 0 140px, transparent 141px),
+    var(--paper);
+  color: var(--ink);
+  font-family: 'Baloo 2', sans-serif;
+  overflow-x: hidden;
+}
+
+button, input { font: inherit; }
+
+.shell {
+  width: min(1080px, calc(100% - 40px));
+  margin: auto;
+}
+
+/* HEADER */
+
+header {
+  padding: 18px 0;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.logo-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 3px solid var(--ink);
+  border-radius: 15px;
+  background: var(--yellow);
+  box-shadow: 4px 4px 0 var(--ink);
+  transform: rotate(-5deg);
+}
+
+.pill {
+  padding: 8px 15px;
+  border: 2px solid var(--ink);
+  border-radius: 30px;
+  background: white;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* HERO */
+
+.hero {
+  position: relative;
+  padding: 65px 0 42px;
+  text-align: center;
+  animation: pop-in .65s ease both;
+}
+
+.hero-label {
+  display: inline-block;
+  padding: 7px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 30px;
+  background: var(--green);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+  transform: rotate(-2deg);
+}
+
+h1 {
+  margin: 22px 0 12px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(48px, 9vw, 94px);
+  font-weight: 700;
+  line-height: .98;
+  letter-spacing: -3px;
+}
+
+h1 .rainbow {
+  display: inline-block;
+  color: #ff6395;
+  text-shadow: 3px 3px 0 #ffda66;
+  transform: rotate(-2deg);
+}
+
+.hero p {
+  max-width: 510px;
+  margin: 20px auto;
+  color: #69617e;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.hero-sticker {
+  position: absolute;
+  font-size: 43px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.sticker-left {
+  top: 100px;
+  left: 5%;
+  transform: rotate(-15deg);
+}
+
+.sticker-right {
+  top: 70px;
+  right: 6%;
+  animation-delay: -1s;
+}
+
+/* STUDENT CARD */
+
+.student-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 760px;
+  margin: 25px auto 65px;
+  padding: 25px 30px;
+  border: 3px solid var(--ink);
+  border-radius: 25px;
+  background: var(--purple);
+  box-shadow: 7px 7px 0 var(--ink);
+  transform: rotate(-.5deg);
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.avatar {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 75px;
+  height: 75px;
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  background: var(--yellow);
+  font-size: 39px;
+  transform: rotate(-7deg);
+}
+
+.student-label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.student-name {
+  margin: 0;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 27px;
+}
+
+.student-details {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.student-badge {
+  padding: 10px 13px;
+  border: 2px solid var(--ink);
+  border-radius: 15px;
+  background: var(--yellow);
+  font-size: 12px;
+  font-weight: 800;
+  transform: rotate(4deg);
+}
+
+/* SECTION */
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 24px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 35px;
+}
+
+.section-heading p {
+  margin: 3px 0 0;
+  color: #777087;
+  font-size: 13px;
+}
+
+.section-tag {
+  padding: 8px 13px;
+  border: 2px dashed var(--ink);
+  border-radius: 14px;
+  background: var(--orange);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* SEARCH */
+
+.controls {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.search-wrap { width: min(100%, 420px); }
+
+.search-wrap label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.search-box { position: relative; }
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  width: 20px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.search-wrap input {
+  width: 100%;
+  height: 51px;
+  padding: 0 15px 0 45px;
+  border: 3px solid var(--ink);
+  border-radius: 15px;
+  outline: none;
+  background: white;
+  box-shadow: 4px 4px 0 var(--ink);
+  font-size: 13px;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.search-wrap input:focus {
+  box-shadow: 6px 6px 0 var(--pink);
+  transform: translate(-2px, -2px);
+}
+
+.result-count {
+  padding-bottom: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: right;
+}
+
+/* WEEKS */
+
+.week-list {
+  display: grid;
+  gap: 20px;
+}
+
+.week {
+  --card: var(--yellow);
+  overflow: hidden;
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  background: white;
+  box-shadow: 6px 6px 0 var(--ink);
+  transition: transform .2s, box-shadow .2s;
+  animation: pop-in .5s ease both;
+}
+
+.week:nth-child(2) { --card: var(--pink); animation-delay: .05s; }
+.week:nth-child(3) { --card: var(--blue); animation-delay: .1s; }
+.week:nth-child(4) { --card: var(--green); animation-delay: .15s; }
+.week:nth-child(5) { --card: var(--orange); animation-delay: .2s; }
+
+.week:hover {
+  transform: translate(-2px, -3px) rotate(-.2deg);
+  box-shadow: 9px 9px 0 var(--ink);
+}
+
+.week summary {
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr) auto 36px;
+  align-items: center;
+  gap: 17px;
+  min-height: 103px;
+  padding: 17px 22px;
+  background: var(--card);
+  cursor: pointer;
+  list-style: none;
+}
+
+.week summary::-webkit-details-marker { display: none; }
+
+.week summary:focus-visible,
+.task-link:focus-visible {
+  outline: 3px dashed var(--ink);
+  outline-offset: 4px;
+}
+
+.week-number {
+  display: grid;
+  place-items: center;
+  width: 55px;
+  height: 55px;
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  background: white;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  transform: rotate(-5deg);
+}
+
+.week-title {
+  display: block;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.week-subtitle {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.week-count {
+  padding: 8px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 30px;
+  background: white;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.chevron {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: white;
+  font-size: 18px;
+  transition: transform .25s;
+}
+
+.chevron::before { content: "↓"; }
+
+details[open] .chevron {
+  transform: rotate(180deg);
+}
+
+/* TASK CARDS */
+
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+  padding: 23px;
+  background: white;
+}
+
+.task-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 62px;
+  padding: 12px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: #fffaf0;
+  box-shadow: 3px 3px 0 var(--ink);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s, background .2s;
+}
+
+.task-link:nth-child(4n + 1) { background: #fff0b8; }
+.task-link:nth-child(4n + 2) { background: #ffe0eb; }
+.task-link:nth-child(4n + 3) { background: #e4e0ff; }
+.task-link:nth-child(4n + 4) { background: #dff7db; }
+
+.task-link::after {
+  content: "↗";
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: white;
+  font-size: 15px;
+  transition: transform .2s;
+}
+
+.task-link:hover {
+  transform: translate(-2px, -3px) rotate(-1deg);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.task-link:hover::after {
+  transform: rotate(45deg);
+}
+
+.task-link[hidden] { display: none; }
+
+/* EMPTY STATE */
+
+.empty-state {
+  display: none;
+  padding: 45px 20px;
+  border: 3px dashed var(--ink);
+  border-radius: 22px;
+  background: white;
+  text-align: center;
+}
+
+.empty-state strong {
+  display: block;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 25px;
+}
+
+/* FOOTER */
+
+footer {
+  margin-top: 75px;
+  padding: 28px 0;
+  border-top: 3px dashed #ded6c8;
+  text-align: center;
+}
+
+.footer-message {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 17px;
+}
+
+.footer-sub {
+  margin-top: 5px;
+  color: #8c849b;
+  font-size: 11px;
+}
+
+/* FLOATING ANIMATIONS */
+
+@keyframes float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -12px; }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 700px) {
+  .shell { width: calc(100% - 30px); }
+
+  .hero { padding: 48px 0 30px; }
+
+  h1 {
+    letter-spacing: -2px;
+    font-size: clamp(43px, 11vw, 68px);
+  }
+
+  .hero p { font-size: 14px; }
+
+  .hero-sticker { font-size: 29px; }
+  .sticker-left { top: 10px; left: 1%; }
+  .sticker-right { top: 10px; right: 2%; }
+
+  .student-card {
+    padding: 19px;
+    margin-bottom: 50px;
+  }
+
+  .avatar {
+    width: 57px;
+    height: 57px;
+    font-size: 29px;
+  }
+
+  .student-name { font-size: 22px; }
+  .student-details { font-size: 10px; }
+  .student-badge { display: none; }
+
+  .section-heading h2 { font-size: 29px; }
+
+  .week summary {
+    grid-template-columns: 45px minmax(0, 1fr) 31px;
+    gap: 12px;
+    min-height: 85px;
+    padding: 14px;
+  }
+
+  .week-number {
+    width: 43px;
+    height: 43px;
+    border-radius: 14px;
+    font-size: 15px;
+  }
+
+  .week-title { font-size: 21px; }
+  .week-subtitle { font-size: 10px; }
+  .week-count { display: none; }
+
+  .task-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .task-link {
+    min-height: 53px;
+    padding: 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .logo { font-size: 15px; }
+  .logo-icon { width: 37px; height: 37px; }
+  .pill { padding: 7px 9px; font-size: 10px; }
+
+  .controls { align-items: end; gap: 10px; }
+  .result-count { max-width: 90px; font-size: 10px; }
+  .section-tag { font-size: 10px; padding: 7px 9px; }
+  .task-grid { gap: 8px; padding: 12px; }
+  .task-link { padding: 9px; font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="shell nav">
+    <div class="logo">
+      <span class="logo-icon">👨‍💻</span>
+      <span>Saurav.dev</span>
+    </div>
+    <span class="pill">🎨 MY CODING WORLD</span>
+  </div>
+</header>
+
+<main class="shell">
+
+  <section class="hero">
+    <span class="hero-sticker sticker-left">🚀</span>
+    <span class="hero-sticker sticker-right">✨</span>
+
+    <span class="hero-label">👋 HEY THERE, INTERNET!</span>
+
+    <h1>
+      Welcome to my<br>
+      <span class="rainbow">coding playground!</span>
+    </h1>
+
+    <p>
+      A little HTML, a little CSS, a lot of debugging,
+      and occasionally wondering why nothing works. 🤡
+    </p>
+  </section>
+
+  <section class="student-card" aria-label="Student information">
+    <div class="student-info">
+      <div class="avatar">😎</div>
+      <div>
+        <p class="student-label">The human behind the code</p>
+        <h2 class="student-name">Saurav luitel</h2>
+        <p class="student-details">
+          💻 Computer Engineering · Gachon University · 3rd Semester
+        </p>
+      </div>
+    </div>
+    <span class="student-badge">STATUS: STILL DEBUGGING 🐛</span>
+  </section>
+
+  <section aria-labelledby="archive-title">
+
+    <div class="section-heading">
+      <div>
+        <h2 id="archive-title">🎮 Pick your level</h2>
+        <p>Choose a week and explore the side quests!</p>
+      </div>
+      <span class="section-tag">LEVEL SELECT</span>
+    </div>
+
+    <div class="controls">
+      <div class="search-wrap">
+        <label for="project-search">🔎 Find your mission</label>
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" aria-hidden="true">
+            <circle cx="10.8" cy="10.8" r="6.8"></circle>
+            <path d="m16 16 4.5 4.5"></path>
+          </svg>
+          <input
+            id="project-search"
+            type="search"
+            placeholder="Try 'Week 1' or 'Task 3'..."
+            autocomplete="off"
+          >
+        </div>
+      </div>
+      <div class="result-count" id="result-count" aria-live="polite"></div>
+    </div>
+
+    <section class="week-list" id="week-list" aria-label="Course projects">
+
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">01</span>
+          <span>
+            <span class="week-title">Week 1 🌱</span>
+            <span class="week-subtitle">The beginning of the adventure</span>
+          </span>
+          <span class="week-count">8 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="Week-1/task1.html">Task 1</a>
+          <a class="task-link" href="Week-1/task2.html">Task 2</a>
+          <a class="task-link" href="Week-1/task3.html">Task 3</a>
+          <a class="task-link" href="Week-1/task4.html">Task 4</a>
+          <a class="task-link" href="Week-1/task5.html">Task 5</a>
+          <a class="task-link" href="Week-1/task6.html">Task 6</a>
+          <a class="task-link" href="Week-1/task7.html">Task 7</a>
+          <a class="task-link" href="Week-1/task8.html">Task 8</a>
+        </div>
+      </details>
+
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">02A</span>
+          <span>
+            <span class="week-title">Week 2 🎨</span>
+            <span class="week-subtitle">Making the web look less ugly</span>
+          </span>
+          <span class="week-count">8 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="Week-2/task1.html">Task 1</a>
+          <a class="task-link" href="Week-2/task2.html">Task 2</a>
+          <a class="task-link" href="Week-2/task3.html">Task 3</a>
+          <a class="task-link" href="Week-2/task4.html">Task 4</a>
+          <a class="task-link" href="Week-2/task5.html">Task 5</a>
+          <a class="task-link" href="Week-2/task6.html">Task 6</a>
+          <a class="task-link" href="Week-2/task7.html">Task 7</a>
+          <a class="task-link" href="Week-2/task8.html">Task 8</a>
+        </div>
+      </details>
+
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">02B</span>
+          <span>
+            <span class="week-title">Week 3 ⚡</span>
+            <span class="week-subtitle">More code, fewer tears</span>
+          </span>
+          <span class="week-count">8 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 3/h1.html">Task 1</a>
+          <a class="task-link" href="week 3/h2.html">Task 2</a>
+          <a class="task-link" href="week 3/h3.html">Task 3</a>
+          <a class="task-link" href="week 3/h4.html">Task 4</a>
+          <a class="task-link" href="week 3/h5.html">Task 5</a>
+          <a class="task-link" href="week 3/h6.html">Task 6</a>
+          <a class="task-link" href="week 3/h7.html">Task 7</a>
+          <a class="task-link" href="week 3/tassssk.html">Task 8 </a>
+        </div>
+      </details>
+
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">03A</span>
+          <span>
+            <span class="week-title">Week 4 🧪</span>
+            <span class="week-subtitle">Things are getting interactive!</span>
+          </span>
+          <span class="week-count">4 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 4/button.html">Task 1</a>
+          <a class="task-link" href="week 4/darkmode.html">Task 2</a>
+          <a class="task-link" href="week 4/search.html">Task 3</a>
+          <a class="task-link" href="week 4/todo.html">Task 4</a>
+        </div>
+      </details>
+
+        <details class="week" data-week>
+        <summary>
+          <span class="week-number">04C</span>
+          <span>
+            <span class="week-title">Week 5 🎶</span>
+            <span class="week-subtitle">Nothing</span>
+          </span>
+          <span class="week-count">2 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 5/task.html">Task 1</a>
+          <a class="task-link" href="week 5/task2.html">Task 2</a>
+        </div>
+      </details>
+
+      
+        <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">Week 6😴 </span>
+            <span class="week-subtitle">tralelala</span>
+          </span>
+          <span class="week-count">6 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 6/country.html">Task 1</a>
+          <a class="task-link" href="week 6/jokes.html">Task 2</a>
+          <a class="task-link" href="week 6/meteo.html">Task 3</a>
+          <a class="task-link" href="week 6/placeholder.html">Task 4</a>
+          <a class="task-link" href="week 6/poke.html">Task 5</a>
+          <a class="task-link" href="week 6/random.html">Task 6</a>
+        </div>
+      </details>
+
+       <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">Week 7😭 </span>
+            <span class="week-subtitle">lala</span>
+          </span>
+          <span class="week-count">7 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 7/search.html">Task 1</a>
+          <a class="task-link" href="week 7/step1.html">Task 2</a>
+          <a class="task-link" href="week 7/step2.html">Task 3</a>
+          <a class="task-link" href="week 7/step3.html">Task 4</a>
+          <a class="task-link" href="week 7/step4.html">Task 5</a>
+          <a class="task-link" href="week 7/step5.html">Task 6</a>
+          <a class="task-link" href="week 7/step6.html">Task 7</a>
+        </div>
+      </details>
+
+       <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">Week 8 </span>
+            <span class="week-subtitle">lolo</span>
+          </span>
+          <span class="week-count">5 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 8/addccs.html">Task 1</a>
+          <a class="task-link" href="week 8/attri.html">Task 2</a>
+          <a class="task-link" href="week 8/form.html">Task 3</a>
+          <a class="task-link" href="week 8/streg.html">Task 4</a>
+          <a class="task-link" href="week 8/upgradedregistration.html">Task 5</a>
+        </div>
+      </details>
+
+       <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">Week 9_1 </span>
+            <span class="week-subtitle">popo</span>
+          </span>
+          <span class="week-count">7 missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week 9/intialpage.html">Initial Page</a>
+          <a class="task-link" href="week 9/pageafterlighthousefix.html">After fixing Light House</a>
+          <a class="task-link" href="week 9/intial.png">Initial Screenshot</a>
+          <a class="task-link" href="week 9/final.png">Final Screenshot</a>
+           <a class="task-link" href="week 9/altext.html">Alt Text</a>
+          <a class="task-link" href="week 9/divbutton.html">div button</a>
+           <a class="task-link" href="week 9/accessibility-report.html">Accessibility report(skip to the main part)</a>
+        </div>
+     </details>
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">Week 9_2 </span>
+            <span class="week-subtitle">topo</span>
+          </span>
+          <span class="week-count"> missions</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week9_2/report.html">Report page</a>
+        </div>
+      </details>
+       </details>
+     
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">5</span>
+          <span>
+            <span class="week-title">PROJECT </span>
+            <span class="week-subtitle">hell</span>
+          </span>
+          <span class="week-count"> </span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="Project/BiHE_COM_Website_Proposal.pptx">Proposal For Website</a>
+           <a class="task-link" href="https://github.com/saurav702-ui/Web-programming/blob/main/Project/script-source.js">Javascript Sourcecode</a>
+           <a class="task-link" href="https://github.com/saurav702-ui/Web-programming/blob/main/Project/styles.css">CSS Sourcecode</a>
+          <a class="task-link" href="Project/BiHE_index.html">Bihe.com</a>
+        </div>
+      </details>
+
+       
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">11_2</span>
+          <span>
+            <span class="week-title">Week11_2</span>
+            <span class="week-subtitle">hell</span>
+          </span>
+          <span class="week-count"> </span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="https://saurav702-ui.github.io/Week11_2/">React Components</a>
+        </div>
+      </details>
+      
+       <details class="week" data-week>
+        <summary>
+          <span class="week-number">12_1</span>
+          <span>
+            <span class="week-title">Week12_1</span>
+            <span class="week-subtitle">hell</span>
+          </span>
+          <span class="week-count"> </span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week12_1/week12-index.html">12_1</a>
+        </div>
+      </details>
+    
+      <details class="week" data-week>
+        <summary>
+          <span class="week-number">12_2</span>
+          <span>
+            <span class="week-title">Week12_2</span>
+            <span class="week-subtitle">hell</span>
+          </span>
+          <span class="week-count"> </span>
+          <span class="chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="task-grid">
+          <a class="task-link" href="week12_2/index.html">12_2</a>
+        </div>
+      </details>
+
+
+
+    </section>
+
+    <div class="empty-state" id="empty-state">
+      <strong>🕵️ No missions found!</strong>
+      Even the internet detectives are confused.
+      Try another search.
+    </div>
+
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    <div class="footer-message">
+      Made with 💖, ☕, and questionable amounts of debugging.
+    </div>
+    <div class="footer-sub">
+      Saurav's Coding Playground · Web Programming · 2026
+    </div>
+  </div>
+</footer>
+
+<script>
+  const searchInput = document.querySelector("#project-search");
+  const weeks = [...document.querySelectorAll("[data-week]")];
+  const resultCount = document.querySelector("#result-count");
+  const emptyState = document.querySelector("#empty-state");
+
+  function filterProjects() {
+    const query = searchInput.value.trim().toLowerCase();
+
+    let visibleWeeks = 0;
+    let visibleProjects = 0;
+
+    for (const week of weeks) {
+      const title = week.querySelector(".week-title")
+        .textContent.toLowerCase();
+
+      const weekMatches = title.includes(query);
+      let projectCount = 0;
+
+      for (const link of week.querySelectorAll(".task-link")) {
+        const matches =
+          !query ||
+          weekMatches ||
+          link.textContent.toLowerCase().includes(query);
+
+        link.hidden = !matches;
+
+        if (matches) projectCount++;
+      }
+
+      week.hidden = projectCount === 0;
+
+      if (projectCount > 0) {
+        visibleWeeks++;
+        visibleProjects += projectCount;
+
+        if (query) week.open = true;
+      } else if (query) {
+        week.open = false;
+      }
+    }
+
+    emptyState.style.display =
+      visibleProjects ? "none" : "block";
+
+    resultCount.textContent =
+      `${visibleProjects} missions · ${visibleWeeks} levels`;
+  }
+
+  searchInput.addEventListener("input", filterProjects);
+  filterProjects();
+</script>
+
+</body>
+</html>
